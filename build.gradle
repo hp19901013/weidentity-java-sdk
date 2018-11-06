@@ -2,6 +2,8 @@ apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'jacoco'
+
 
 // Specify JDK version - may vary in different scenarios
 sourceCompatibility = 1.8
@@ -116,6 +118,17 @@ jar {
         copy {
             from file('.').listFiles().findAll { File f -> (f.name.endsWith('.bat') || f.name.endsWith('.sh') || f.name.endsWith('.env')) }
             into 'dist'
+        }
+    }
+}
+jacocoTestReport {
+    reports {
+        xml {
+            enabled true // coveralls plugin depends on xml format report
+        }
+
+        html {
+            enabled true
         }
     }
 }

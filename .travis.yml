@@ -20,4 +20,4 @@ cache:
 
 after_success:
 - gradle clean test
-- gradle jacocoTestReport
+- gradle jacocoTestReport jacoco:report coveralls:report -Ptravis-jacoco

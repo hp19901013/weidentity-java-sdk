@@ -132,3 +132,7 @@ jacocoTestReport {
         }
     }
 }
+
+jacoco {
+    reportsDir = file("$buildDir/report")
+}

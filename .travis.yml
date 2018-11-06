@@ -17,3 +17,7 @@ cache:
   directories:
   - $HOME/.gradle/caches/
   - $HOME/.gradle/wrapper/
+
+after_success:
+- gradle clean test
+- gradle jacocoTestReport

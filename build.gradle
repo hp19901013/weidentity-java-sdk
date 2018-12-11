@@ -1,10 +1,25 @@
+buildscript {
+    repositories {
+        maven {
+            url "http://maven.aliyun.com/nexus/content/groups/public/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.5"
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.7"
+    }
+}
+
+plugins {
+    id "me.champeau.gradle.jmh" version "0.4.7"
+}
+
 apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'jacoco'
-
-version = "1.0.0"
+apply plugin: 'checkstyle'
+apply plugin: "me.champeau.gradle.jmh"
 
 // Specify JDK version - may vary in different scenarios
 sourceCompatibility = 1.8
@@ -58,38 +73,24 @@ List jmockit = [
         "org.jmockit:jmockit:1.9"
 ]
 
-// In this section you declare the dependencies for your production and test code
-List jackson = [
-        "com.fasterxml.jackson.core:jackson-databind:2.8.8.1",
-        'io.netty:netty-all:4.1.15.Final',
-		'io.netty:netty-tcnative:2.0.0.Final',
-		'com.google.guava:guava:19.0',
-		'com.github.fge:json-schema-validator:2.2.6',
-		'org.apache.httpcomponents:httpclient:4.5.2',
-		'org.bouncycastle:bcprov-jdk15on:1.54',
-        'com.lambdaworks:scrypt:1.4.0',
-        'com.squareup:javapoet:1.7.0',
-        'io.reactivex:rxjava:1.2.4',
-        'com.github.jnr:jnr-unixsocket:0.15'
-]
-
-// In this section you declare the dependencies for your production and test code
 dependencies {
-    compile logger, spring, lombok, apache_commons, jackson
-    runtime logger, spring, lombok, apache_commons, jackson
+    compile logger, spring, lombok, apache_commons
     testCompile logger, spring, lombok, junit, jmockit
+
+    compile "com.fasterxml.jackson.core:jackson-databind:2.8.8.1"
+    compile 'io.netty:netty-all:4.1.15.Final'
+    compile 'io.netty:netty-tcnative:2.0.0.Final'
+    compile 'com.google.guava:guava:19.0'
+    compile 'com.github.fge:json-schema-validator:2.2.6'
     compile files('lib/web3sdk.jar')
-    runtime files('lib/web3sdk.jar')
+    compile 'org.apache.httpcomponents:httpclient:4.5.2',
+            'org.bouncycastle:bcprov-jdk15on:1.54',
+            'com.lambdaworks:scrypt:1.4.0',
+            'com.squareup:javapoet:1.7.0',
+            'io.reactivex:rxjava:1.2.4',
+            'com.github.jnr:jnr-unixsocket:0.15'
+//    jmh group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.21'
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled true
-        html.enabled false
-    }
-}
-
-check.dependsOn jacocoTestReport
 
 sourceSets {
     main {
@@ -102,20 +103,29 @@ sourceSets {
     }
     test {
         java {
-            srcDirs = ['src/test/java']
+            srcDirs = ["src/test/java"]
         }
         resources {
             srcDirs = ['src/test/resources']
+        }
+    }
+    jmh {
+        java {
+            srcDirs = ['src/jmh/java']
+        }
+        resources {
+            srcDirs = ['src/jmh/resources']
         }
     }
 }
 
 jar {
     destinationDir file('dist/app')
-    archiveName project.name +'-'+version+'.jar'
-	
+    archiveName project.name + '.jar'
     exclude '**/*.xml'
     exclude '**/*.properties'
+    exclude '**/*.keystore'
+    exclude '**/*.crt'
 
     doLast {
         copy {
@@ -133,3 +143,60 @@ jar {
     }
 }
 
+checkstyle {
+    showViolations true
+    toolVersion '8.12'
+}
+
+tasks.withType(Checkstyle) {
+    include '**/*.java'
+    exclude '**/contract/*.java'
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+tasks.withType(com.github.spotbugs.SpotBugsTask) {
+    include '**/*.java'
+    exclude '**/contract/*.java'
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile('config/spotbugs.xsl')
+    }
+}
+
+jmhJar {
+    destinationDir file('dist/jmh/app')
+    exclude '**/*.xml'
+    exclude '**/*.properties'
+    exclude '**/*.keystore'
+    exclude '**/*.crt'
+    exclude '**/*.jar'
+    manifest {
+        attributes 'Main-Class': 'com.webank.weid.JmhMain'
+        attributes 'Class-Path': configurations.compile.collect {
+            '../lib/' + it.getName()
+        }.join(' ') + configurations.jmh.collect {
+            '../lib/' + it.getName()
+        }.join(' ') + " ../conf/ "
+    }
+
+    doLast {
+        copy {
+            from configurations.runtime, configurations.jmh
+            into 'dist/jmh/lib'
+        }
+        copy {
+            from file('src/main/resources/'), file('src/jmh/resources/')
+            into 'dist/jmh/conf'
+        }
+    }
+}
+jmh {
+    jmhVersion = '1.21'
+}
+clean {
+    delete("dist")
+}

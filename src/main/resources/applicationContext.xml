@@ -30,9 +30,9 @@
     id="appConfig">
     <property name="properties">
       <props>
-        <prop key="weId.contractaddress">${WEID_ADDRESS}</prop>
-        <prop key="cpt.contractaddress">${CPT_ADDRESS}</prop>
-        <prop key="issuer.contractaddress">${ISSUER_ADDRESS}</prop>
+        <prop key="weId.contractaddress">0x9c2a1ae16052435f4d1f5a4b944eacb8b65ac53e</prop>
+        <prop key="cpt.contractaddress">0x1be8ee8692b1705a29962f4727e25213e4abc94b</prop>
+        <prop key="issuer.contractaddress">0xdac57fcea99baa066909efadac0907a16f309843</prop>
       </props>
     </property>
     <!--  <property name="location" value="classpath:application.properties" />-->
@@ -48,7 +48,7 @@
   </bean>
   <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" id="pool">
     <property name="corePoolSize" value="150"/>
-    <property name="maxPoolSize" value="200"/>
+    <property name="maxPoolSize" value="4000"/>
     <property name="queueCapacity" value="20"/>
     <property name="keepAliveSeconds" value="60"/>
     <property name="rejectedExecutionHandler">
@@ -59,10 +59,10 @@
   <context:component-scan base-package="com.webank.weid.config"/>
 
   <bean class="org.bcos.contract.tools.ToolConf" id="toolConf">
-    <property name="systemProxyAddress" value="0x3ca60c68c6264ab08c05ae2df4bfc384c81ebcef"/>
+    <property name="systemProxyAddress" value="0xe60bb7a90cd17363b53dac55a2688125f0dc340d"/>
     <property name="privKey"
       value="bcec428d5205abe0f0cc8a734083908d9eb8563e31f943d760786edf42ad67dd"/>
-    <property name="account" value="0x1914dc80628aaabd66cf23297fbd6feb14da6ce7"/>
+    <property name="account" value="0x11508df7183e92e550b5382f2b47208f809b1eba"/>
     <property name="outPutpath" value="./output/"/>
   </bean>
 
@@ -82,7 +82,7 @@
             <property name="clientCertPassWord" value="123456"/>
             <property name="connectionsStr">
               <list>
-                ${BLOCKCHIAN_NODE_INFO}
+                   <value>WeIdentity@192.168.74.128:8003</value>
               </list>
             </property>
           </bean>

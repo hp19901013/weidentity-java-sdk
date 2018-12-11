@@ -24,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+
 import org.bcos.web3j.abi.datatypes.generated.Int256;
 
 /**
@@ -131,10 +132,7 @@ public class DateUtils {
         } catch (Exception ex) {
             return false;
         }
-        if (parsed.intValue() < 0) {
-            return false;
-        }
-        return true;
+        return (parsed.intValue() >= 0);
     }
 
     /**

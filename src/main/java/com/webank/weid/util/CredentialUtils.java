@@ -23,6 +23,7 @@ import com.webank.weid.constant.WeIdConstant;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
 import com.webank.weid.protocol.request.VerifyCredentialArgs;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -39,7 +40,10 @@ public final class CredentialUtils {
      * @return Hash value in String.
      */
     public static String getCredentialFields(Credential arg) {
-        if (arg == null) {
+        if (arg == null
+            || arg.getCptId() == null
+            || arg.getIssuranceDate() == null
+            || arg.getExpirationDate() == null) {
             return StringUtils.EMPTY;
         }
         String rawData =

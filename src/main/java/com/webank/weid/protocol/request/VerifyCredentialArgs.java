@@ -21,6 +21,7 @@ package com.webank.weid.protocol.request;
 
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.WeIdPublicKey;
+
 import lombok.Data;
 
 /**
@@ -34,7 +35,7 @@ public class VerifyCredentialArgs {
     /**
      * Required: The Credential content.
      */
-    Credential credential;
+    private Credential credential;
 
     /**
      * Optional: The public key passed in.

@@ -19,6 +19,19 @@
 
 package com.webank.weid.service.impl;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import org.apache.commons.lang3.StringUtils;
+import org.bcos.web3j.crypto.Sign;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.AuthenticationProperty;
 import com.webank.weid.protocol.base.Cpt;
@@ -36,17 +49,6 @@ import com.webank.weid.util.CredentialUtils;
 import com.webank.weid.util.JsonSchemaValidatorUtils;
 import com.webank.weid.util.SignatureUtils;
 import com.webank.weid.util.WeIdUtils;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import org.apache.commons.lang3.StringUtils;
-import org.bcos.web3j.crypto.Sign;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Service implementations for operations on Credential.
@@ -64,17 +66,6 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
     @Autowired
     private WeIdService weIdService;
 
-    /**
-     * Instantiates a new credential service impl.
-     *
-     * @throws Exception the exception
-     */
-    public CredentialServiceImpl() throws Exception {
-        init();
-    }
-
-    private static void init() throws Exception {
-    }
 
     /**
      * Generate a credential.
@@ -170,10 +161,6 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
             if (!responseData.getResult()) {
                 return responseData;
             }
-            responseData = verifyNotRevoked(credential);
-            if (!responseData.getResult()) {
-                return responseData;
-            }
             responseData = verifySignature(credential, publicKey);
             return responseData;
         } catch (Exception e) {
@@ -199,8 +186,8 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
 
             String credentialIssuer = args.getIssuer();
             if (!WeIdUtils.isWeIdValid(credentialIssuer)) {
-                logger.error(ErrorCode.CREDENTIAL_ISSUER_NOT_EXISTS.getCodeDesc());
-                return new ResponseData<>(false, ErrorCode.CREDENTIAL_ISSUER_NOT_EXISTS);
+                logger.error(ErrorCode.CREDENTIAL_ISSUER_INVALID.getCodeDesc());
+                return new ResponseData<>(false, ErrorCode.CREDENTIAL_ISSUER_INVALID);
             }
 
             Long expirationDate = args.getExpirationDate();
@@ -217,11 +204,10 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
                 return new ResponseData<>(false, ErrorCode.CREDENTIAL_CLAIM_NOT_EXISTS);
             }
 
-            if (privateKeyRequired) {
-                if (StringUtils.isEmpty(args.getWeIdPrivateKey().getPrivateKey())) {
-                    logger.error(ErrorCode.CREDENTIAL_PRIVATE_KEY_NOT_EXISTS.getCodeDesc());
-                    return new ResponseData<>(false, ErrorCode.CREDENTIAL_PRIVATE_KEY_NOT_EXISTS);
-                }
+            if (privateKeyRequired 
+                && StringUtils.isEmpty(args.getWeIdPrivateKey().getPrivateKey())) {
+                logger.error(ErrorCode.CREDENTIAL_PRIVATE_KEY_NOT_EXISTS.getCodeDesc());
+                return new ResponseData<>(false, ErrorCode.CREDENTIAL_PRIVATE_KEY_NOT_EXISTS);
             }
 
             responseData.setResult(true);
@@ -288,7 +274,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
 
     private ResponseData<Boolean> verifyIssuerExistence(String issuerWeId) {
         ResponseData<Boolean> responseData = weIdService.isWeIdExist(issuerWeId);
-        if (responseData == null || responseData.getResult() == null) {
+        if (responseData == null || !responseData.getResult()) {
             return new ResponseData<>(false, ErrorCode.CREDENTIAL_ISSUER_NOT_EXISTS);
         }
         return responseData;
@@ -297,11 +283,6 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
     private ResponseData<Boolean> verifyCptFormat(Credential credential) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         String claim = credential.getClaim();
-        if (StringUtils.isEmpty(claim)) {
-            logger.error(ErrorCode.CREDENTIAL_CLAIM_NOT_EXISTS.getCodeDesc());
-            return new ResponseData<>(false, ErrorCode.CREDENTIAL_CLAIM_NOT_EXISTS);
-        }
-
         Integer cptId = credential.getCptId();
         Cpt cpt = cptService.queryCpt(cptId).getResult();
         if (cpt == null) {
@@ -329,29 +310,19 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
 
     private ResponseData<Boolean> verifyNotExpired(Credential credential) {
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
-        try {
-            Date expireDate = new Date(credential.getExpirationDate().longValue());
-            Date currentDate = new Date();
-            boolean result = currentDate.before(expireDate);
-            responseData.setResult(result);
-            if (!result) {
-                responseData.setErrorCode(ErrorCode.CREDENTIAL_EXPIRED.getCode());
-                responseData.setErrorMessage(ErrorCode.CREDENTIAL_EXPIRED.getCodeDesc());
-            }
-            return responseData;
-        } catch (Exception e) {
-            logger.error(
-                "Generic error occurred during verify expiration when verifyCredential: " + e);
-            return new ResponseData<>(false, ErrorCode.CREDENTIAL_ERROR);
+        Date expireDate = new Date(credential.getExpirationDate().longValue());
+        Date currentDate = new Date();
+        boolean result = currentDate.before(expireDate);
+        responseData.setResult(result);
+        if (!result) {
+            responseData.setErrorCode(ErrorCode.CREDENTIAL_EXPIRED.getCode());
+            responseData.setErrorMessage(ErrorCode.CREDENTIAL_EXPIRED.getCodeDesc());
         }
-    }
-
-    private ResponseData<Boolean> verifyNotRevoked(Credential credential) {
-        // Placeholder, always return true.
-        return new ResponseData<>(true, ErrorCode.SUCCESS);
+        return responseData;
     }
 
     private ResponseData<Boolean> verifySignature(Credential credential, String publicKey) {
+    
         ResponseData<Boolean> responseData = new ResponseData<Boolean>();
         try {
             String hashedRawData = CredentialUtils.getCredentialFields(credential);

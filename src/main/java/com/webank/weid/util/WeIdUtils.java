@@ -19,12 +19,14 @@
 
 package com.webank.weid.util;
 
-import com.webank.weid.constant.WeIdConstant;
-import com.webank.weid.protocol.base.WeIdPrivateKey;
 import java.math.BigInteger;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bcos.web3j.crypto.ECKeyPair;
 import org.bcos.web3j.crypto.Keys;
+
+import com.webank.weid.constant.WeIdConstant;
+import com.webank.weid.protocol.base.WeIdPrivateKey;
 
 /**
  * The WeIdentity DID Utils.
@@ -50,7 +52,7 @@ public final class WeIdUtils {
      * Convert an account address to WeIdentity DID.
      *
      * @param address the address
-     * @return a related weId, or empty string if the input is illegal.
+     * @return a related WeIdentity DID, or empty string if the input is illegal.
      */
     public static String convertAddressToWeId(String address) {
         if (StringUtils.isEmpty(address)) {
@@ -68,7 +70,8 @@ public final class WeIdUtils {
     public static boolean isWeIdValid(String weId) {
         return (StringUtils.isNotEmpty(weId)
             && StringUtils.startsWith(weId, WeIdConstant.WEID_PREFIX)
-            && StringUtils.isNotEmpty((weId = StringUtils.splitByWholeSeparator(weId, ":")[2])));
+            && StringUtils.isNotEmpty(StringUtils.splitByWholeSeparator(weId, ":")[2])
+            );
     }
 
     /**
@@ -102,7 +105,7 @@ public final class WeIdUtils {
         try {
             ECKeyPair keyPair = ECKeyPair.create(new BigInteger(privateKey));
             return StringUtils.equals(String.valueOf(keyPair.getPublicKey()), publicKey);
-        }catch(Exception e){
+        } catch (Exception e) {
             return false;
         }
     }

@@ -20,6 +20,7 @@
 package com.webank.weid.protocol.request;
 
 import com.webank.weid.protocol.base.WeIdPrivateKey;
+
 import lombok.Data;
 
 /**
@@ -31,7 +32,7 @@ import lombok.Data;
 public class SetServiceArgs {
 
     /**
-     * Required: user's weId.
+     * Required: user's WeIdentity DID.
      */
     private String weId;
 

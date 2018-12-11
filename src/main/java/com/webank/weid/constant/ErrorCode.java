@@ -137,6 +137,11 @@ public enum ErrorCode {
      * The credential issuer does not have a valid WeIdentity DID document.
      */
     CREDENTIAL_WEID_DOCUMENT_ILLEGAL(100417, "weid document illegal"),
+    
+    /**
+     * The credential issuer is invalid.
+     */
+    CREDENTIAL_ISSUER_INVALID(100418, "credential issuer invalid"),
 
     /**
      * Authority issuer main error code.
@@ -156,7 +161,8 @@ public enum ErrorCode {
     /**
      * The authority issuer address mismatch.
      */
-    AUTHORITY_ISSUER_ADDRESS_MISMATCH(100204, "address in event log does not match the WeIdentity DID"),
+    AUTHORITY_ISSUER_ADDRESS_MISMATCH(100204,
+        "address in event log does not match the WeIdentity DID"),
 
     /**
      * The authority issuer opcode mismatch.
@@ -249,6 +255,21 @@ public enum ErrorCode {
      * input parameter is illegal
      */
     ILLEGAL_INPUT(160004, "input parameter is illegal."),
+
+    /**
+     * smart contract load failed.
+     */
+    LOAD_CONTRACT_FAILED(160005, "load contract failed."),
+
+    /**
+     * web3j load failed.
+     */
+    LOAD_WEB3J_FAILED(160006, "load web3j failed."),
+
+    /**
+     * weidentity base exceptions or error.
+     */
+    BASE_ERROR(160007, "baes exception error, please check error log."),
 
     /**
      * other uncatched exceptions or error.

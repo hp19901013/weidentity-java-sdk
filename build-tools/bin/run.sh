@@ -1,7 +1,7 @@
 #!/bin/bash
 
-current_path=`pwd`
-source_code_dir=$current_path"/../../"
+current_path=$(pwd)
+source_code_dir=$current_path"/../.."
 echo $source_code_dir
 chmod 755 web3sdk.sh
 cd $source_code_dir
@@ -12,10 +12,10 @@ fi
 
 gradle clean build -x test
 
-cp -r ./build_tools/* dist/
+cp -r ./build-tools/* dist/
 
 cd dist/bin
-chmod +x *.sh
+chmod +x ./*.sh
 ./setup.sh "com.webank.weid.contract" "$source_code_dir"
 
 

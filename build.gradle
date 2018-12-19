@@ -6,12 +6,11 @@ buildscript {
     }
     dependencies {
         classpath "gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.6.5"
-        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.7"
     }
 }
 
 plugins {
-    id "me.champeau.gradle.jmh" version "0.4.7"
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
 }
 
 apply plugin: 'maven'
@@ -19,7 +18,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'checkstyle'
-apply plugin: "me.champeau.gradle.jmh"
+apply plugin: "com.github.johnrengelman.shadow"
 
 // Specify JDK version - may vary in different scenarios
 sourceCompatibility = 1.8
@@ -89,7 +88,9 @@ dependencies {
             'com.squareup:javapoet:1.7.0',
             'io.reactivex:rxjava:1.2.4',
             'com.github.jnr:jnr-unixsocket:0.15'
-//    jmh group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.21'
+    compile group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.21'
+    compile group: 'org.openjdk.jmh', name: 'jmh-generator-annprocess', version: '1.21'
+
 }
 
 sourceSets {
@@ -101,20 +102,23 @@ sourceSets {
             srcDirs = ['src/main/resources']
         }
     }
+
     test {
         java {
-            srcDirs = ["src/test/java"]
+            srcDirs = ['src/test/java']
         }
         resources {
-            srcDirs = ['src/test/resources']
+            srcDirs = ['src/test/resources', 'src/main/resources']
         }
     }
-    jmh {
-        java {
-            srcDirs = ['src/jmh/java']
-        }
-        resources {
-            srcDirs = ['src/jmh/resources']
+    jmhTest {
+        test {
+            java {
+                srcDirs = ['src/jmh/java', 'src/test/java', 'src/main/java']
+            }
+            resources {
+                srcDirs = ['src/jmh/resources']
+            }
         }
     }
 }
@@ -167,25 +171,27 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
     }
 }
 
-jmhJar {
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+task jmhTest(type: ShadowJar) {
+    from sourceSets.test.output
     destinationDir file('dist/jmh/app')
+    archiveName project.name + '-jmh.jar'
     exclude '**/*.xml'
     exclude '**/*.properties'
     exclude '**/*.keystore'
     exclude '**/*.crt'
     exclude '**/*.jar'
     manifest {
-        attributes 'Main-Class': 'com.webank.weid.JmhMain'
-        attributes 'Class-Path': configurations.compile.collect {
-            '../lib/' + it.getName()
-        }.join(' ') + configurations.jmh.collect {
+        attributes 'Main-Class': 'org.openjdk.jmh.Main'
+        attributes 'Class-Path': project.configurations.runtime.collect {
             '../lib/' + it.getName()
         }.join(' ') + " ../conf/ "
     }
 
     doLast {
         copy {
-            from configurations.runtime, configurations.jmh
+            from project.configurations.runtime
             into 'dist/jmh/lib'
         }
         copy {
@@ -194,9 +200,7 @@ jmhJar {
         }
     }
 }
-jmh {
-    jmhVersion = '1.21'
-}
+
 clean {
     delete("dist")
 }

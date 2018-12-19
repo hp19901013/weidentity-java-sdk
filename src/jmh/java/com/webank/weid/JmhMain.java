@@ -10,14 +10,14 @@ import org.openjdk.jmh.runner.options.TimeValue;
 public class JmhMain {
 
     public static void main(String[] args) throws Exception {
-        // TODO Auto-generated method stub
         Options opt = new OptionsBuilder()
-            .include("JmhTestCreateWeId1Method")
-            .warmupIterations(1) //预热次数
-            .threads(1)
-            .measurementIterations(1) //真正执行次数
-            .measurementTime(new TimeValue(10, TimeUnit.SECONDS))
-            .build();
+                .include("JmhTestCreateWeId1Method")
+                .warmupIterations(1)
+                .threads(1)
+                .forks(1)
+                .measurementIterations(1)
+                .measurementTime(new TimeValue(10, TimeUnit.SECONDS))
+                .build();
 
         new Runner(opt).run();
     }

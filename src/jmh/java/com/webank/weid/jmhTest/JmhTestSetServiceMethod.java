@@ -1,33 +1,28 @@
-package com.webank.weid;
+package com.webank.weid.jmhTest;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.webank.weid.base.JmhBase;
-import com.webank.weid.base.JmhUtil;
+import com.webank.weid.utils.JmhUtil;
 import com.webank.weid.full.TestBaseUtil;
 import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.utils.PropertiesUtils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
 import org.openjdk.jmh.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @State(value = Scope.Benchmark)
-@OutputTimeUnit(TimeUnit.SECONDS)
-@Fork(1)
-@Warmup(iterations = 1, time = 10)
-@Measurement(iterations = 1, time = 300)
 public class JmhTestSetServiceMethod extends JmhBase {
 
     private List<CreateWeIdDataResult> createWeIdDataResultList = new ArrayList<>();
@@ -36,10 +31,10 @@ public class JmhTestSetServiceMethod extends JmhBase {
     private int index = 0;
 
     @Benchmark
-    @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
     public void setService() {
-        int i;
-        i = (int) (Math.random() * 20000);
+        int maxSize = Integer.parseInt(
+            PropertiesUtils.getProperty("setServiceDataSize", "1000"));
+        int i = (int) (Math.random() * maxSize);
         try {
             CreateWeIdDataResult createWeIdResult = createWeIdDataResultList.get(i);
             SetServiceArgs setServiceArgs = TestBaseUtil.buildSetServiceArgs(createWeIdResult);
@@ -57,16 +52,13 @@ public class JmhTestSetServiceMethod extends JmhBase {
     public void initData() {
         BufferedReader br = null;
         try {
-
-            String filePath = "E:\\works\\weidentity-java-sdk\\src\\jmh\\resources\\setServiceData.txt";
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+            InputStream resourceAsStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("../jmhTestData/setServiceData.json");
+            br = new BufferedReader(new InputStreamReader(resourceAsStream));
             String jsonStr = br.readLine();
-
             ObjectMapper objectMapper = new ObjectMapper();
-            JavaType javaType = objectMapper.getTypeFactory()
-                .constructParametricType(ArrayList.class, CreateWeIdDataResult.class);
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(ArrayList.class, CreateWeIdDataResult.class);
             createWeIdDataResultList = objectMapper.readValue(jsonStr, javaType);
-            System.out.println("init finsh. size:" + createWeIdDataResultList.size());
             System.out.println("test getWeIdDocument start,current block:" + util.getBlockNumber());
         } catch (Exception e) {
             e.printStackTrace();

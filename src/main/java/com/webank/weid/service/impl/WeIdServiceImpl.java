@@ -386,6 +386,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         } catch (TimeoutException e) {
             return new ResponseData<>(null, ErrorCode.TRANSACTION_TIMEOUT);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseData<>(null, ErrorCode.UNKNOW_ERROR);
         }
         return responseData;

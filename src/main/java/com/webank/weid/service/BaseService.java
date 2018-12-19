@@ -164,7 +164,7 @@ public abstract class BaseService {
         }
 
         Object contract = null;
-        if (null == web3j || !initWeb3j()) {
+        if (null == web3j && !initWeb3j()) {
             throw new InitWeb3jException();
         }
         try {

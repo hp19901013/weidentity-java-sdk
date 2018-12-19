@@ -180,13 +180,14 @@ task jmhTest(type: ShadowJar) {
     exclude '**/*.xml'
     exclude '**/*.properties'
     exclude '**/*.keystore'
+    exclude '**/*.json'
     exclude '**/*.crt'
     exclude '**/*.jar'
     manifest {
         attributes 'Main-Class': 'org.openjdk.jmh.Main'
         attributes 'Class-Path': project.configurations.runtime.collect {
             '../lib/' + it.getName()
-        }.join(' ') + " ../conf/ "
+        }.join(' ') + " ../conf/" + " ../jmhTestData/"
     }
 
     doLast {
@@ -197,6 +198,18 @@ task jmhTest(type: ShadowJar) {
         copy {
             from file('src/main/resources/'), file('src/jmh/resources/')
             into 'dist/jmh/conf'
+            exclude('*.json')
+        }
+        mkdir ('dist/jmh/jmhTestData')
+        copy {
+            from file('src/jmh/resources/')
+            into 'dist/jmh/jmhTestData'
+            include('*.json')
+        }
+        mkdir ('dist/jmh/bin')
+        copy {
+            from file('src/jmh/bin/')
+            into 'dist/jmh/bin'
         }
     }
 }

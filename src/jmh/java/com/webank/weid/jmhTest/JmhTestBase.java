@@ -1,4 +1,4 @@
-package com.webank.weid;
+package com.webank.weid.jmhTest;
 
 import java.io.IOException;
 
@@ -17,6 +17,6 @@ public class JmhTestBase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("1");
+        System.out.print("1");
     }
 }

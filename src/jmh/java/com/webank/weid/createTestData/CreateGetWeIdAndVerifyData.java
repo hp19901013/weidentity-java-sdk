@@ -1,17 +1,18 @@
-package com.webank.weid.createdata;
+package com.webank.weid.createTestData;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.webank.weid.base.JmhBase;
-import com.webank.weid.base.JmhUtil;
+import com.webank.weid.utils.FileUtil;
+import com.webank.weid.utils.JmhUtil;
 import com.webank.weid.common.BeanUtil;
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.full.TestBaseUtil;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
-import com.webank.weid.protocol.base.WeIdDocument;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
 import com.webank.weid.protocol.request.RegisterCptArgs;
 import com.webank.weid.protocol.request.SetAuthenticationArgs;
@@ -19,38 +20,39 @@ import com.webank.weid.protocol.request.SetPublicKeyArgs;
 import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.utils.PropertiesUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
 
-public class CreateVerifyCredentialData extends JmhBase {
+public class CreateGetWeIdAndVerifyData extends JmhBase {
 
-    private List<Credential> credentialList = new ArrayList<Credential>();
-    private static int maxSize = 2000;
-    private int initThreadNum = 10;
+    private static List<Credential> credentialList = new ArrayList<Credential>();
+    private static int maxSize;
+    private static int initThreadNum;
 
-    @Test
-    public void initStart() {
-
+    public static void main(String args[]) {
         JmhUtil util = new JmhUtil();
         System.out.println("init data start,current block:" + util.getBlockNumber());
+
+        maxSize = Integer.parseInt(PropertiesUtils.getProperty("getWeIdAndVerifyDataSize", "1000"));
+        initThreadNum = Integer
+            .parseInt(PropertiesUtils.getProperty("createGetWeIdAndVerifyThread", "10"));
+        System.out.println(maxSize +"----"+ initThreadNum);
         initVerifyCredentialData();
         System.out.println("init data end,current block:" + util.getBlockNumber());
+        System.exit(0);
 
     }
 
-
-    public void initVerifyCredentialData() {
+    public static void initVerifyCredentialData() {
         for (int i = 0; i < initThreadNum; i++) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     while (credentialList.size() < maxSize) {
                         try {
                             credentialList.add(createCerifyData());
                         } catch (Exception e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     }
@@ -72,16 +74,20 @@ public class CreateVerifyCredentialData extends JmhBase {
         ObjectMapper mapper = new ObjectMapper();
         try {
             String writeValueAsString = mapper.writeValueAsString(credentialList);
-            FileWriter file = new FileWriter("E:\\verifyCredentialData.txt");
+            String projectPath = FileUtil.getProjectPath();
+            File fileDir = new File(projectPath + "../jmhTestData");
+            if(!fileDir.exists() && !fileDir.isDirectory()){
+                fileDir.mkdir();
+            }
+            FileWriter file = new FileWriter(projectPath + "../jmhTestData/createGetWeIdAndVerifyData.json");
             file.write(writeValueAsString);
             file.close();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    public Credential createCerifyData() throws Exception {
+    public static Credential createCerifyData() throws Exception {
 
         CreateWeIdDataResult createWeIdResult = weIdService.createWeId().getResult();
 
@@ -104,7 +110,6 @@ public class CreateVerifyCredentialData extends JmhBase {
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResult, response.getResult());
         return credentialService.createCredential(createCredentialArgs).getResult();
-
     }
 
 }

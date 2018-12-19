@@ -1,24 +1,21 @@
-package com.webank.weid;
+package com.webank.weid.jmhTest;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.webank.weid.base.JmhBase;
-import com.webank.weid.base.JmhUtil;
-import com.webank.weid.full.TestBaseUtil;
+import com.webank.weid.utils.JmhUtil;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.WeIdDocument;
-import com.webank.weid.protocol.request.SetAuthenticationArgs;
-import com.webank.weid.protocol.request.SetPublicKeyArgs;
-import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.utils.PropertiesUtils;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,14 +24,10 @@ import org.openjdk.jmh.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 @State(value = Scope.Benchmark)
-@OutputTimeUnit(TimeUnit.SECONDS)
-@Fork(1)
-@Warmup(iterations = 1, time = 10)
-@Measurement(iterations = 1, time = 300)
 public class JmhTestGetWeIdDocumentMethod extends JmhBase {
-
+    int maxSize = Integer.parseInt(
+        PropertiesUtils.getProperty("getWeIdAndVerifyDataSize", "1000"));
     private List<CreateWeIdDataResult> createWeIdDataResultList = new ArrayList<>();
     private static final Logger logger = LoggerFactory
         .getLogger(JmhTestGetWeIdDocumentMethod.class);
@@ -43,9 +36,8 @@ public class JmhTestGetWeIdDocumentMethod extends JmhBase {
     JmhUtil util = new JmhUtil();
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime, Mode.Throughput})
     public void getWeIdDocument() throws Exception {
-        int i = (int) (Math.random() * 2000);
+        int i = (int) (Math.random() * maxSize);
         ResponseData<WeIdDocument> weIdDocument = weIdService
             .getWeIdDocument(createWeIdDataResultList.get(i).getWeId());
         logger.info(weIdDocument.toString());
@@ -58,8 +50,9 @@ public class JmhTestGetWeIdDocumentMethod extends JmhBase {
     public void initData() {
         BufferedReader br = null;
         try {
-            String filePath = "E:\\works\\jmh\\weidentity-java-sdk-master\\src\\jmh\\resources\\verifyCredentialData.txt";
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
+            InputStream resourceAsStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("../jmhTestData/createGetWeIdAndVerifyData.json");
+            br = new BufferedReader(new InputStreamReader(resourceAsStream));
             String jsonStr = br.readLine();
 
             ObjectMapper objectMapper = new ObjectMapper();
@@ -72,9 +65,6 @@ public class JmhTestGetWeIdDocumentMethod extends JmhBase {
                 createWeIdDataResult.setWeId(issuer);
                 createWeIdDataResultList.add(createWeIdDataResult);
             }
-//            System.out.println(credentialList.get(0));
-            System.out.println("init finsh. size:" + credentialList.size());
-            System.out.println("test getWeIdDocument start,current block:" + util.getBlockNumber());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -87,34 +77,6 @@ public class JmhTestGetWeIdDocumentMethod extends JmhBase {
             }
         }
     }
-
-/*    @Setup
-    public void initData() {
-        BufferedReader br = null;
-        try {
-
-            String filePath = "E:\\works\\jmh\\weidentity-java-sdk-master\\src\\jmh\\resources\\getWeIdData.txt";
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)));
-            String jsonStr = br.readLine();
-
-            ObjectMapper objectMapper = new ObjectMapper();
-            JavaType javaType = objectMapper.getTypeFactory()
-                .constructParametricType(ArrayList.class, CreateWeIdDataResult.class);
-            createWeIdDataResultList = objectMapper.readValue(jsonStr, javaType);
-            System.out.println("init finsh. size:" + createWeIdDataResultList.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        System.out.println("test getWeIdDocument start,current block:" + util.getBlockNumber());
-    }*/
 
     @TearDown
     public void tearDown() {

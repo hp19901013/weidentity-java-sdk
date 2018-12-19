@@ -14,7 +14,7 @@ warmupIteration=$4
 warmupTime=$5
 iterations=$6
 timeOnIteration=$7
-java -jar weidentity-java-sdk-jmh.jar ${methodName} -t ${thread} -f 1 -wi ${warmupIteration} -i ${iterations} -w ${warmupTime} -r ${timeOnIteration} -bm 'Throughput,AverageTime' -rf 'text' -rff ${resultsFile}
+java -jar ../app/weidentity-java-sdk-jmh.jar ${methodName} -t ${thread} -f 1 -wi ${warmupIteration} -i ${iterations} -w ${warmupTime} -r ${timeOnIteration} -bm 'Throughput,AverageTime' -rf 'text' -rff ${resultsFile}
 }
 
 function multiThread(){
@@ -24,6 +24,11 @@ warmupIteration=$(readConfig ${methodName} 'warmupIteration')
 warmupTime=$(readConfig ${methodName} 'warmupTime')
 iterations=$(readConfig ${methodName} 'iterations')
 timeOnIteration=$(readConfig ${methodName} 'timeOnIteration')
+if [ ! -d "../report" ]; then
+ mkdir ../report
+ touch ../report/JmhTestResult.txt
+fi
+echo '['${methodName}']' >> '../report/JmhTestResult.txt'
 OLD_IFS="$IFS"
 IFS=","
 array=($threads)
@@ -31,13 +36,10 @@ IFS="$OLD_IFS"
 for var in ${array[@]}
 do
    testOne ${methodName} $var ${methodName}-$var'thread.txt' ${warmupIteration} ${warmupTime} ${iterations} ${timeOnIteration}
-   if [ ! -d "../report" ]; then
-     mkdir ../report
-     touch ../report/JmhTestResult.txt
-   fi
    mv ${methodName}-$var'thread.txt' ../report
-   echo 'methodName-'${methodName} 'thread-'$var 'warmupIteration-'${warmupIteration} 'warmupTime-'${warmupTime} 'iterations-'${iterations} 'timeOnIteration-'${timeOnIteration} >> '../report/JmhTestResult.txt'
+   echo 'thread-'$var 'warmupIteration-'${warmupIteration} 'warmupTime-'${warmupTime} 'iterations-'${iterations} 'timeOnIteration-'${timeOnIteration} >> '../report/JmhTestResult.txt'
    cat ../report/${methodName}-$var'thread.txt' >> '../report/JmhTestResult.txt'
+   rm -rf ../report/${methodName}-$var'thread.txt'
    echo -e >> '../report/JmhTestResult.txt'
 done
    echo -e -e >> '../report/JmhTestResult.txt'

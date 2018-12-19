@@ -15,7 +15,7 @@ import org.junit.Test;
 public class CreateTestSetServiceData extends JmhBase {
 
     private List<CreateWeIdDataResult> createWeIdDataResultList = new ArrayList<>();
-    private static int maxSize = 2000;
+    private static int maxSize = 20;
     private int initThreadNum = 10;
 
     @Test

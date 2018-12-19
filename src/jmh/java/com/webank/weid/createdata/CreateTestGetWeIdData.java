@@ -19,7 +19,7 @@ import org.junit.Test;
 public class CreateTestGetWeIdData extends JmhBase {
 
     private List<CreateWeIdDataResult> createWeIdDataResultList = new ArrayList<>();
-    private static int maxSize = 2000;
+    private static int maxSize = 100;
     private int initThreadNum = 10;
 
     @Test

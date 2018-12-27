@@ -4,5 +4,20 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="weidentity-java-sdk_jmh" target="1.8" />
+      <module name="weidentity-java-sdk_ma" target="1.8" />
+      <module name="weidentity-java-sdk_mai" target="1.8" />
+      <module name="weidentity-java-sdk_s" target="1.8" />
+      <module name="weidentity-java-sdk_shadowJar" target="1.8" />
+      <module name="weidentity-java-sdk_t" target="1.8" />
+      <module name="weidentity-java-sdk_ta" target="1.8" />
+      <module name="weidentity-java-sdk_task" target="1.8" />
+      <module name="weidentity-java-sdk_te" target="1.8" />
+      <module name="weidentity-java-sdk_tes" target="1.8" />
+      <module name="weidentity-java-sdk_testj" target="1.8" />
+      <module name="weidentity-java-sdk_testJar" target="1.8" />
+      <module name="weidentity-java-sdk_testtestJar" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

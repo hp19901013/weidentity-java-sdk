@@ -13,7 +13,6 @@ import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.utils.PropertiesUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Test;
 
 public class CreateTestSetServiceData extends JmhBase {
 
@@ -21,7 +20,6 @@ public class CreateTestSetServiceData extends JmhBase {
     private static int maxSize;
     private static int initThreadNum;
 
-    @Test
     public static void main(String args[]) {
 
         JmhUtil util = new JmhUtil();
@@ -51,6 +49,7 @@ public class CreateTestSetServiceData extends JmhBase {
                 e.printStackTrace();
             }
         }
+
 
         try {
             String projectPath = FileUtil.getProjectPath();

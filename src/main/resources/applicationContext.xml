@@ -82,10 +82,7 @@
                         <property name="clientCertPassWord" value="123456"/>
                         <property name="connectionsStr">
                             <list>
-                                <value>WeIdentity@10.107.105.225:8310</value>
-                                <value>WeIdentity@10.107.105.3:8310</value>
-                                <value>WeIdentity@10.107.105.14:8310</value>
-                                <value>WeIdentity@10.107.105.225:8310</value>
+                                <value>WeIdentity@192.168.74.130:8003</value>
                             </list>
                         </property>
                     </bean>

@@ -37,7 +37,6 @@ public class CreateGetWeIdAndVerifyData extends JmhBase {
         maxSize = Integer.parseInt(PropertiesUtils.getProperty("getWeIdAndVerifyDataSize", "1000"));
         initThreadNum = Integer
             .parseInt(PropertiesUtils.getProperty("createGetWeIdAndVerifyThread", "10"));
-        System.out.println(maxSize +"----"+ initThreadNum);
         initVerifyCredentialData();
         System.out.println("init data end,current block:" + util.getBlockNumber());
         System.exit(0);

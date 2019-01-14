@@ -28,7 +28,7 @@ import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +49,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestRemoveAuthorityIssuer extends TestBaseServcie {
     
     private static final Logger logger = 
@@ -361,7 +362,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
      * case: mock an InterruptedException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRemoveAuthorityIssuerCase14() {
 
         RemoveAuthorityIssuerArgs removeAuthorityIssuerArgs =
@@ -403,7 +404,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
      * case: mock an TimeoutException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRemoveAuthorityIssuerCase15() {
 
         RemoveAuthorityIssuerArgs removeAuthorityIssuerArgs =
@@ -423,7 +424,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
      * case:  mock returns null when invoking the getAuthorityIssuerRetLogEvents.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRemoveAuthorityIssuerCase16() {
 
         RemoveAuthorityIssuerArgs removeAuthorityIssuerArgs =

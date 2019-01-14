@@ -28,7 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.bcos.web3j.tx.Contract;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +50,7 @@ import com.webank.weid.service.BaseService;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestCreateWeId2 extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestCreateWeId2.class);
@@ -205,7 +206,7 @@ public class TestCreateWeId2 extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase9() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -233,7 +234,7 @@ public class TestCreateWeId2 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase10() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -264,7 +265,7 @@ public class TestCreateWeId2 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase11() {
 
         MockUp<Future<?>> mockFuture = mockTimeoutFuture();
@@ -281,7 +282,7 @@ public class TestCreateWeId2 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase12() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -310,7 +311,7 @@ public class TestCreateWeId2 extends TestBaseServcie {
      *       reloadContract method.
      *  
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase13() {
 
         CreateWeIdArgs createWeIdArgs = TestBaseUtil.buildCreateWeIdArgs();

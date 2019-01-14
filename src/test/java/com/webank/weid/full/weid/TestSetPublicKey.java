@@ -26,7 +26,7 @@ import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +46,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestSetPublicKey extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestSetPublicKey.class);
@@ -369,7 +370,7 @@ public class TestSetPublicKey extends TestBaseServcie {
      *       setPublicKey method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetPublicKeyCase18() {
 
         SetPublicKeyArgs setPublicKeyArgs = TestBaseUtil.buildSetPublicKeyArgs(createWeIdResult);
@@ -403,7 +404,7 @@ public class TestSetPublicKey extends TestBaseServcie {
      *       setAttribute method.
      *       
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetPublicKeyCase19() {
 
         SetPublicKeyArgs setPublicKeyArgs = TestBaseUtil.buildSetPublicKeyArgs(createWeIdResult);
@@ -422,7 +423,7 @@ public class TestSetPublicKey extends TestBaseServcie {
      *       setAttribute method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetPublicKeyCase20() {
 
         SetPublicKeyArgs setPublicKeyArgs = TestBaseUtil.buildSetPublicKeyArgs(createWeIdResult);

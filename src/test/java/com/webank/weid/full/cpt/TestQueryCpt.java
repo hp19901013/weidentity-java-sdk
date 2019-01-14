@@ -29,7 +29,7 @@ import org.bcos.web3j.abi.datatypes.Type;
 import org.bcos.web3j.abi.datatypes.generated.Bytes32;
 import org.bcos.web3j.abi.datatypes.generated.Uint256;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +52,7 @@ import com.webank.weid.util.DataTypetUtils;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestQueryCpt extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestQueryCpt.class);
@@ -154,7 +155,7 @@ public class TestQueryCpt extends TestBaseServcie {
     /**
      * case: mock an InterruptedException.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryCptCase6() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -181,7 +182,7 @@ public class TestQueryCpt extends TestBaseServcie {
     /**
      * case: mock returns null.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryCptCase7() {
 
         MockUp<CptController> mockTest = new MockUp<CptController>() {
@@ -205,7 +206,7 @@ public class TestQueryCpt extends TestBaseServcie {
      * case: mock DataTypetUtils.bytes32DynamicArrayToStringArrayWithoutTrim()
      *      for DataTypeCastException.DataTypeCastException()
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryCptCase8() {
 
         MockUp<DataTypetUtils> mockTest = new MockUp<DataTypetUtils>() {

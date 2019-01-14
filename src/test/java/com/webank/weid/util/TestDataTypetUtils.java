@@ -27,7 +27,7 @@ import org.bcos.web3j.abi.datatypes.generated.Int256;
 import org.bcos.web3j.abi.datatypes.generated.Uint256;
 import org.bcos.web3j.abi.datatypes.generated.Uint8;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
  * @author v_wbjnzhang
  *
  */
+@Test(groups = "all")
 public class TestDataTypetUtils {
     
     private static final Logger logger = LoggerFactory.getLogger(TestDataTypetUtils.class);

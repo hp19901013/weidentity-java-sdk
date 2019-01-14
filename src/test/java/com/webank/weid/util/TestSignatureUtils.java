@@ -29,7 +29,7 @@ import java.security.SignatureException;
 import org.bcos.web3j.crypto.ECKeyPair;
 import org.bcos.web3j.crypto.Sign;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
  * @author v_wbjnzhang
  *
  */
+@Test(groups = "all")
 public class TestSignatureUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(TestSignatureUtils.class);

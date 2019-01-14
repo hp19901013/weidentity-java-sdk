@@ -26,7 +26,7 @@ import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +46,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestSetService extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestSetService.class);
@@ -298,7 +299,7 @@ public class TestSetService extends TestBaseServcie {
      *       setService method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetServiceCase14() {
 
         SetServiceArgs setServiceArgs = TestBaseUtil.buildSetServiceArgs(createWeIdResult);
@@ -332,7 +333,7 @@ public class TestSetService extends TestBaseServcie {
      *       setService method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetServiceCase15() {
 
         SetServiceArgs setServiceArgs = TestBaseUtil.buildSetServiceArgs(createWeIdResult);
@@ -351,7 +352,7 @@ public class TestSetService extends TestBaseServcie {
      *       setService method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetServiceCase16() {
 
         SetServiceArgs setServiceArgs = TestBaseUtil.buildSetServiceArgs(createWeIdResult);

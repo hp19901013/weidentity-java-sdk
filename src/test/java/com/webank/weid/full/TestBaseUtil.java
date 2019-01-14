@@ -59,7 +59,7 @@ import com.webank.weid.protocol.response.CreateWeIdDataResult;
 
 /**
  * testing basic entity object building classes.
- * 
+ *
  * @author v_wbgyang
  *
  */
@@ -148,7 +148,7 @@ public class TestBaseUtil {
      * build default RegisterAuthorityIssuerArgs.
      */
     public static RegisterAuthorityIssuerArgs buildRegisterAuthorityIssuerArgs(
-        CreateWeIdDataResult createWeId, 
+        CreateWeIdDataResult createWeId,
         String privateKey) {
 
         AuthorityIssuer authorityIssuer = new AuthorityIssuer();
@@ -167,7 +167,7 @@ public class TestBaseUtil {
 
     /**
      * build default CreateWeIdArgs.
-     * 
+     *
      */
     public static CreateWeIdArgs buildCreateWeIdArgs() {
         CreateWeIdArgs args = new CreateWeIdArgs();
@@ -235,7 +235,7 @@ public class TestBaseUtil {
      * buildRemoveAuthorityIssuerArgs.
      */
     public static RemoveAuthorityIssuerArgs buildRemoveAuthorityIssuerArgs(
-        CreateWeIdDataResult createWeId, 
+        CreateWeIdDataResult createWeId,
         String privateKey) {
 
         RemoveAuthorityIssuerArgs removeAuthorityIssuerArgs = new RemoveAuthorityIssuerArgs();
@@ -248,7 +248,7 @@ public class TestBaseUtil {
 
     /**
      * create a new public key - private key.
-     * 
+     *
      */
     public static PasswordKey createEcKeyPair() {
 
@@ -272,7 +272,7 @@ public class TestBaseUtil {
 
     /**
      * to test the public and private key from the file.
-     * 
+     *
      * @param fileName fileName
      * @return
      */
@@ -302,7 +302,7 @@ public class TestBaseUtil {
             String line = null;
             while ((line = br.readLine()) != null) {
                 strList.add(line);
-            } 
+            }
 
             String[] pk = new String[2];
             for (int i = 0; i < strList.size(); i++) {

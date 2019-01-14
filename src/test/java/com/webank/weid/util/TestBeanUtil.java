@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.webank.weid.common.BeanUtil;
 import com.webank.weid.common.PasswordKey;
@@ -40,6 +40,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestBeanUtil {
     
     @Test

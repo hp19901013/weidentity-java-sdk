@@ -27,14 +27,15 @@ import java.util.TimeZone;
 
 import org.bcos.web3j.abi.datatypes.generated.Int256;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * test DateUtils.
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestDateUtils {
     
     private DateFormat df;
@@ -46,7 +47,7 @@ public class TestDateUtils {
     /**
      * initialization before test.
      */
-    @Before
+    @BeforeMethod
     public void init() {
         TimeZone tz = TimeZone.getTimeZone("Asia/Shanghai");
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");

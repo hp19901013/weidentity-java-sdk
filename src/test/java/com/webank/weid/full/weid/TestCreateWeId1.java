@@ -29,7 +29,7 @@ import org.bcos.web3j.crypto.ECKeyPair;
 import org.bcos.web3j.crypto.Keys;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +47,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestCreateWeId1 extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestCreateWeId1.class);
@@ -71,7 +72,7 @@ public class TestCreateWeId1 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase2() {
 
         MockUp<Future<?>> mockFuture = mockTimeoutFuture();
@@ -88,7 +89,7 @@ public class TestCreateWeId1 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase3() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -118,7 +119,7 @@ public class TestCreateWeId1 extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase4() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -145,7 +146,7 @@ public class TestCreateWeId1 extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase5() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -173,7 +174,7 @@ public class TestCreateWeId1 extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testCreateWeIdCase6() {
 
         MockUp<Keys> mockTest = new MockUp<Keys>() {

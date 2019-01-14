@@ -20,7 +20,7 @@
 package com.webank.weid.util;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +32,7 @@ import com.webank.weid.protocol.base.WeIdPrivateKey;
  * @author v_wbjnzhang
  *
  */
+@Test(groups = "all")
 public class TestWeIdUtils {
     
     private static final Logger logger = LoggerFactory.getLogger(TestWeIdUtils.class);

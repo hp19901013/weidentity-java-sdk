@@ -22,7 +22,7 @@ package com.webank.weid.util;
 import java.util.UUID;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
@@ -35,6 +35,7 @@ import com.webank.weid.util.CredentialUtils;
  * @author v_wbjnzhang
  *
  */
+@Test(groups = "all")
 public class TestCredentialUtils {
 
     @Test

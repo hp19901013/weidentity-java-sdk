@@ -25,7 +25,7 @@ import mockit.Mock;
 import mockit.MockUp;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +42,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestGetWeIdDocumentJson extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestGetWeIdDocumentJson.class);
@@ -49,7 +50,7 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
     protected static CreateWeIdDataResult createWeIdForGetJson = null;
 
     @Override
-    public void testInit() {
+    public synchronized void testInit() {
         super.testInit();
         if (null == createWeIdForGetJson) {
             createWeIdForGetJson = super.createWeIdWithSetAttr();
@@ -150,7 +151,7 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
      *       writerWithDefaultPrettyPrinter method.
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testGetWeIdDocumentJsonCase6() {
 
         MockUp<ObjectMapper> mockTest = new MockUp<ObjectMapper>() {

@@ -26,7 +26,7 @@ import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +46,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestSetAuthentication extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestSetAuthentication.class);
@@ -386,7 +387,7 @@ public class TestSetAuthentication extends TestBaseServcie {
      *       setAttribute method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetAuthenticationCase18() {
 
         SetAuthenticationArgs setAuthenticationArgs =
@@ -422,7 +423,7 @@ public class TestSetAuthentication extends TestBaseServcie {
      *       setAttribute method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetAuthenticationCase19() {
 
         SetAuthenticationArgs setAuthenticationArgs =
@@ -443,7 +444,7 @@ public class TestSetAuthentication extends TestBaseServcie {
      *       getWeIdAttributeChangedEvents method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testSetAuthenticationCase20() {
 
         SetAuthenticationArgs setAuthenticationArgs =

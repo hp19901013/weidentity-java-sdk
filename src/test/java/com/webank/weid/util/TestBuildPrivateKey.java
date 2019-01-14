@@ -21,7 +21,7 @@ package com.webank.weid.util;
 
 import java.math.BigInteger;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +34,7 @@ import com.webank.weid.full.TestBaseUtil;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestBuildPrivateKey {
     
     private static final Logger logger = LoggerFactory.getLogger(TestBuildPrivateKey.class);

@@ -22,7 +22,7 @@ package com.webank.weid.performance;
 import java.io.IOException;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,14 +40,13 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestWeIdPerformance extends BaseTest {
     
     private static final Logger logger = LoggerFactory.getLogger(TestWeIdPerformance.class);
 
     @Test
     public void testGetWeIdDom() throws IOException {
-
-        logger.info("blockNumber:" + this.getBlockNumber());
 
         CreateWeIdDataResult weIdResult = this.createWeId();
         logger.info("WeIdentity DID:" + weIdResult.getWeId());
@@ -59,7 +58,6 @@ public class TestWeIdPerformance extends BaseTest {
                 "https://weidentity.webank.com/endpoint/8377464" + i);
             logger.info("------" + i);
         }
-        logger.info("blockNumber:" + this.getBlockNumber());
 
         long startTime = System.currentTimeMillis();
 

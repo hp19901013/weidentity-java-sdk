@@ -35,7 +35,7 @@ import org.bcos.web3j.abi.datatypes.generated.Int256;
 import org.bcos.web3j.abi.datatypes.generated.Uint256;
 import org.bcos.web3j.abi.datatypes.generated.Uint8;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +59,7 @@ import com.webank.weid.util.WeIdUtils;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestUpdateCpt extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestUpdateCpt.class);
@@ -472,7 +473,7 @@ public class TestUpdateCpt extends TestBaseServcie {
     /** 
      * case： mock an InterruptedException.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testUpdateCptCase21() {
 
         UpdateCptArgs updateCptArgs =
@@ -518,7 +519,7 @@ public class TestUpdateCpt extends TestBaseServcie {
     /** 
      * case： mock an TimeoutException.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testUpdateCptCase22() {
 
         UpdateCptArgs updateCptArgs =

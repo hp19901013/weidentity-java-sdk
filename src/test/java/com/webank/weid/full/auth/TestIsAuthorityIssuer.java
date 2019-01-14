@@ -26,9 +26,9 @@ import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
 import org.bcos.web3j.abi.datatypes.Bool;
 import org.junit.Assert;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
 
 import com.webank.weid.common.BeanUtil;
 import com.webank.weid.constant.ErrorCode;

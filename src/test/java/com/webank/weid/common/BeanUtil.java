@@ -305,6 +305,6 @@ public class BeanUtil {
         } else {
             printBean("", obj, beanStr);
         }
-        logger.info(beanStr.toString());
+        System.out.println(beanStr.toString());
     }
 }

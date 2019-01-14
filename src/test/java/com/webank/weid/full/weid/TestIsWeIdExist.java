@@ -27,7 +27,7 @@ import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
 import org.bcos.web3j.abi.datatypes.Bool;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +43,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestIsWeIdExist extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestIsWeIdExist.class);
@@ -127,7 +128,7 @@ public class TestIsWeIdExist extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsWeIdExistCase6() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -153,7 +154,7 @@ public class TestIsWeIdExist extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsWeIdExistCase7() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -179,7 +180,7 @@ public class TestIsWeIdExist extends TestBaseServcie {
      *       method.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsWeIdExistCase8() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {

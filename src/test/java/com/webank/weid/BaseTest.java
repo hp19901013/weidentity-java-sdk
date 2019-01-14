@@ -19,33 +19,29 @@
 
 package com.webank.weid;
 
-import java.io.IOException;
 import java.math.BigInteger;
 
 import org.bcos.contract.tools.ToolConf;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
 import com.webank.weid.rpc.AuthorityIssuerService;
 import com.webank.weid.rpc.CptService;
 import com.webank.weid.rpc.CredentialService;
 import com.webank.weid.rpc.WeIdService;
-import com.webank.weid.service.BaseService;
 
 /**
  * Test base class.
  *
  * @author v_wbgyang
  */
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
     locations = {"classpath:SpringApplicationContext-test.xml", "classpath:applicationContext.xml"})
-public abstract class BaseTest extends BaseService {
+public abstract class BaseTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     protected AuthorityIssuerService authorityIssuerService;
@@ -67,17 +63,15 @@ public abstract class BaseTest extends BaseService {
      * when registering authority.
      *
      */
-    protected String privateKey;
+    protected static String privateKey;
 
     /**
      *  initialization some for test.
      *
      */
-    @Before
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
-
         privateKey = new BigInteger(toolConf.getPrivKey(), 16).toString();
-
         testInit();
     }
 
@@ -85,7 +79,7 @@ public abstract class BaseTest extends BaseService {
      *  tearDown some for test.
      *
      */
-    @After
+//    @AfterMethod
     public void tearDown() {
 
         authorityIssuerService = null;
@@ -105,7 +99,7 @@ public abstract class BaseTest extends BaseService {
         Assert.assertTrue(true);
     }
 
-    public int getBlockNumber() throws IOException {
+/*    public int getBlockNumber() throws IOException {
         return super.getWeb3j().ethBlockNumber().send().getBlockNumber().intValue();
-    }
+    }*/
 }

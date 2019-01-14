@@ -27,7 +27,7 @@ import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
 import org.bcos.web3j.abi.datatypes.Type;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +47,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
 
     private static final Logger logger =
@@ -179,7 +180,7 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
      * case: mock an InterruptedException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryAuthorityIssuerInfoCase7() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -195,7 +196,7 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
      * case: mock an TimeoutException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryAuthorityIssuerInfoCase8() {
 
         final MockUp<Future<?>> mockFuture = mockTimeoutFuture();
@@ -211,7 +212,7 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
      * case: mock returns null when invoking the future.get().
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryAuthorityIssuerInfoCase9() {
 
         final MockUp<Future<?>> mockFuture = mockReturnNullFuture();
@@ -247,7 +248,7 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
      * case: mock an NullPointerException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testQueryAuthorityIssuerInfoCase10() {
 
         MockUp<AuthorityIssuerController> mockTest = new MockUp<AuthorityIssuerController>() {

@@ -28,7 +28,8 @@ import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +49,13 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestGetWeIdDocument extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestGetWeIdDocument.class);
     
     protected static CreateWeIdDataResult createWeIdForGetDoc = null;
-    
-    @Override
+
     public void testInit() {
         super.testInit();
         if (null == createWeIdForGetDoc) {
@@ -68,7 +69,6 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      */
     @Test
     public void testGetWeIdDocumentCase1() {
-
         ResponseData<WeIdDocument> weIdDoc =
             weIdService.getWeIdDocument(createWeIdForGetDoc.getWeId());
         logger.info("getWeIdDocument result:");
@@ -160,7 +160,7 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      *       method.
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testGetWeIdDocumentCase6() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -176,7 +176,7 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      * case: Simulation throws an TimeoutException when calling the getLatestRelatedBlock method.
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testGetWeIdDocumentCase7() {
 
         MockUp<Future<?>> mockFuture = mockTimeoutFuture();
@@ -212,7 +212,7 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      *      for WeIdServiceImpl.resolveAttributeEvent().
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testGetWeIdDocumentCase8() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {
@@ -239,7 +239,7 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      * for WeIdServiceImpl.resolveAttributeEvent().
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testGetWeIdDocumentCase9() {
 
         MockUp<WeIdContract> mockTest = new MockUp<WeIdContract>() {

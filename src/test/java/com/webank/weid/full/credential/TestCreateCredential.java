@@ -20,9 +20,9 @@
 package com.webank.weid.full.credential;
 
 import org.junit.Assert;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
 
 import com.webank.weid.common.BeanUtil;
 import com.webank.weid.constant.ErrorCode;
@@ -39,6 +39,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestCreateCredential extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestCreateCredential.class);

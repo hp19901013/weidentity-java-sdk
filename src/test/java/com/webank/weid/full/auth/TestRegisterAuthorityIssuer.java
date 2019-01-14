@@ -32,7 +32,7 @@ import org.bcos.web3j.abi.datatypes.generated.Bytes32;
 import org.bcos.web3j.abi.datatypes.generated.Int256;
 import org.bcos.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +52,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestRegisterAuthorityIssuer extends TestBaseServcie {
 
     private static final Logger logger = 
@@ -425,7 +426,7 @@ public class TestRegisterAuthorityIssuer extends TestBaseServcie {
      * case: mock an InterruptedException.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRegisterAuthorityIssuerCase18() {
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =
@@ -445,7 +446,7 @@ public class TestRegisterAuthorityIssuer extends TestBaseServcie {
      * case: mock an TimeoutException.
      * 
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRegisterAuthorityIssuerCase19() {
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =
@@ -491,7 +492,7 @@ public class TestRegisterAuthorityIssuer extends TestBaseServcie {
      * case: mock returns null when invoking the getAuthorityIssuerRetLogEvents.
      *
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testRegisterAuthorityIssuerCase20() {
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =

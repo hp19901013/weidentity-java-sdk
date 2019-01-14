@@ -22,7 +22,7 @@ package com.webank.weid.full.credential;
 import mockit.Mock;
 import mockit.MockUp;
 import org.junit.Assert;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.webank.weid.common.PasswordKey;
 import com.webank.weid.constant.ErrorCode;
@@ -43,10 +43,11 @@ import com.webank.weid.service.impl.WeIdServiceImpl;
  * @author v_wbgyang
  *
  */
+@Test(groups = "all")
 public class TestVerifyCredential extends TestBaseServcie {
 
     protected PasswordKey passwordKey = null;
-    
+
     @Override
     public void testInit() {
         super.testInit();
@@ -511,7 +512,7 @@ public class TestVerifyCredential extends TestBaseServcie {
     /** 
      * case: mock CREDENTIAL_WEID_DOCUMENT_ILLEGAL.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testVerifyCredentialCase28() {
 
         Credential credential = super.createCredential(createCredentialArgs);
@@ -537,7 +538,7 @@ public class TestVerifyCredential extends TestBaseServcie {
     /** 
      * case: mock NullPointerException.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testVerifyCredentialCase29() {
 
         Credential credential = super.createCredential(createCredentialArgs);

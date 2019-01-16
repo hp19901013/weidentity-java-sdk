@@ -20,9 +20,11 @@
 package com.webank.weid.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -126,6 +128,35 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
 
         // initialize the event topic
         initEventTopic();
+    }
+
+
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        list.add("0x2cea41f9bff7cde88da9770fbeedbdfd19371be2866b265799b361b74f14b2df");
+        list.add("0xd580d35e01d3d6f56df78f3700aedf125a01b16a3b95c131d24982820b63a2f2");
+        list.add("0xc6b6c5c23724e014bf057b699f0060f1a7719f2b23c1588597d6b3b99f0339a3");
+        list.add("0x99453e769c60741882d012659d78f0c082e17564f1396e5972886e7aac8e1bcc");
+        list.add("0xcb3c9c1c65927d04aace7d4d64e9f8312aa54aa4746759a6d9dea8304cf3c3a5");
+        list.add("0x7b38bcd116b0341c06d28cc31f9586d4a0742b4e941c3932b9cdced1b90183ea");
+
+        try {
+            for (String s : list) {
+                TransactionReceipt transactionReceipt = getWeb3j().ethGetTransactionReceipt(s).send()
+                    .getTransactionReceipt().get();
+                List<Log> logs = transactionReceipt.getLogs();
+                List<WeIdAttributeChangedEventResponse> eventlog =
+                    WeIdContract.getWeIdAttributeChangedEvents(transactionReceipt);
+                System.out.println("----------------start----------------");
+                System.out.println(DataTypetUtils.dynamicBytesToString(eventlog.get(0).value));
+                System.out.println(eventlog.get(0).identity);
+                System.out.println(DataTypetUtils.bytes32ToString(eventlog.get(0).key));
+                System.out.println("----------------end----------------");
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void initEventTopic() {
@@ -289,6 +320,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         String event = topicMap.get(topic);
 
         if (StringUtils.isNotBlank(event)) {
+            System.out.println(event);
             switch (event) {
                 case WeIdEventConstant.WEID_EVENT_ATTRIBUTE_CHANGE:
                     return resolveAttributeEvent(weId, receipt, result);
@@ -296,7 +328,8 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             }
         }
         ResolveEventLogResult response = new ResolveEventLogResult();
-        response.setResolveEventLogStatus(ResolveEventLogStatus.STATUS_EVENT_NULL);
+        response.setResolveEventLogStatus(ResolveEventLogStatus.STATUS_SUCCESS);
+        response.setPreviousBlock(0);
         return response;
     }
 
@@ -304,6 +337,11 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         String weId,
         int blockNumber,
         WeIdDocument result) {
+        System.out.println("----------------resolveTransaction param start-------------------");
+        System.out.println("resolveTransaction paramter: weId " + weId);
+        System.out.println("resolveTransaction paramter: blockNumber " + blockNumber);
+        System.out.println("resolveTransaction paramter: result " + result);
+        System.out.println("-----------------resolveTransaction param end------------------");
 
         if (blockNumber == 0) {
             return;
@@ -321,8 +359,8 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         }
         if (latestBlock == null) {
             logger.info(
-                    "[resolveTransaction]:get block by number :{} . latestBlock is null",
-                    blockNumber);
+                "[resolveTransaction]:get block by number :{} . latestBlock is null",
+                blockNumber);
             return;
         }
         List<Transaction> transList =
@@ -335,9 +373,10 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
 
         int previousBlock = 0;
         try {
+            System.out.println("transListHash:");
             for (Transaction transaction : transList) {
                 String transHash = transaction.getHash();
-
+                System.out.println(transHash);
                 EthGetTransactionReceipt rec1 = getWeb3j().ethGetTransactionReceipt(transHash)
                     .send();
                 TransactionReceipt receipt = rec1.getTransactionReceipt().get();
@@ -346,18 +385,19 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
                     ResolveEventLogResult returnValue = resolveEventLog(weId, log, receipt, result);
                     if (returnValue.getResultStatus().equals(
                         ResolveEventLogStatus.STATUS_SUCCESS)) {
-                        previousBlock = returnValue.getPreviousBlock();
+                            if(returnValue.getPreviousBlock() == blockNumber){
+                                continue;
+                            }else {
+                                previousBlock = returnValue.getPreviousBlock();
+                            }
+                        System.out.println(previousBlock);
                     } else {
-                        logger.error(
-                            "[resolveTransaction]: resolveEventLog failed. resultStatus:{}",
-                            returnValue.getResultStatus());
-
-                        throw new ResolveAttributeException(
-                            ErrorCode.DATA_RESOLVE_ATTRIBUTE_ERROR.getCode(),
-                            ErrorCode.DATA_RESOLVE_ATTRIBUTE_ERROR.getCodeDesc());
+                        continue;
                     }
                 }
             }
+            System.out.println(
+                "------------------------------resolveTransaction end------------------------------");
         } catch (IOException | DataTypeCastException e) {
             logger.error(
                 "[resolveTransaction]: get TransactionReceipt by weId :{} failed.",
@@ -676,7 +716,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             || null == setPublicKeyArgs.getType()
             || null == setPublicKeyArgs.getUserWeIdPrivateKey()
             || null == setPublicKeyArgs.getPublicKey()
-            );
+        );
     }
 
     /**
@@ -743,7 +783,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             || null == setServiceArgs.getType()
             || null == setServiceArgs.getUserWeIdPrivateKey()
             || null == setServiceArgs.getServiceEndpoint()
-            );
+        );
     }
 
     /**
@@ -824,7 +864,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             || null == setAuthenticationArgs.getType()
             || null == setAuthenticationArgs.getUserWeIdPrivateKey()
             || StringUtils.isEmpty(setAuthenticationArgs.getPublicKey())
-            );
+        );
     }
 
     /**

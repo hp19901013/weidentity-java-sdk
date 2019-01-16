@@ -51,10 +51,19 @@ public class TestGetWeIdDocument extends TestBaseServcie {
     protected static CreateWeIdDataResult createWeIdForGetDoc = null;
 
     public synchronized void testInit() {
-        super.testInit();
-        if (null == createWeIdForGetDoc) {
-            createWeIdForGetDoc = super.createWeIdWithSetAttr();
-        }
+//        super.testInit();
+//        if (null == createWeIdForGetDoc) {
+//            createWeIdForGetDoc = super.createWeIdWithSetAttr();
+//            System.out.println("测试createWeIdForGetDoc：" + createWeIdForGetDoc);
+//        }
+    }
+
+    @Test
+    public void testGetWeIdDocument() {
+
+        ResponseData<WeIdDocument> weIdDoc = weIdService
+            .getWeIdDocument("did:weid:0x334073942f9223e8e26d292d01fbdfe0529603a7");
+        BeanUtil.print(weIdDoc);
     }
 
     /**
@@ -64,7 +73,6 @@ public class TestGetWeIdDocument extends TestBaseServcie {
     public void testGetWeIdDocumentCase1() {
         ResponseData<WeIdDocument> weIdDoc =
             weIdService.getWeIdDocument(createWeIdForGetDoc.getWeId());
-        System.out.println("testGetWeIdDocumentCase1结果：" + weIdDoc);
         logger.info("getWeIdDocument result:");
         BeanUtil.print(weIdDoc);
 

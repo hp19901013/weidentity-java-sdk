@@ -91,6 +91,7 @@ dependencies {
     compile logger, spring, lombok, apache_commons, jackson
     testCompile logger, spring, lombok, junit, jmockit
     compile files("lib/web3sdk.jar")
+    compile group: 'org.testng', name: 'testng', version: '6.14.3'
 }
 
 jacocoTestReport {
@@ -176,5 +177,10 @@ tasks.withType(com.github.spotbugs.SpotBugsTask) {
         xml.enabled false
         html.enabled true
         html.stylesheet resources.text.fromFile('config/spotbugs.xsl')
+    }
+}
+test {
+    useTestNG() {
+        suites 'src/test/resources/testng.xml'
     }
 }

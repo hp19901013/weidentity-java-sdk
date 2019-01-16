@@ -20,6 +20,7 @@
 package com.webank.weid.full.weid;
 
 import java.security.NoSuchProviderException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -195,4 +196,5 @@ public class TestCreateWeId1 extends TestBaseServcie {
             response.getErrorCode().intValue());
         Assert.assertNull(response.getResult());
     }
+
 }

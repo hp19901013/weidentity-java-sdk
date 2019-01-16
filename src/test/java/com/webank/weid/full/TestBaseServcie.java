@@ -264,33 +264,33 @@ public abstract class TestBaseServcie extends BaseTest {
 
         CreateWeIdDataResult createWeId = this.createWeId();
 
-//        CountDownLatch countDownLatch = new CountDownLatch(3);
-//        new Thread(() -> {
-//            this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-//                createWeId.getWeId());
-//            countDownLatch.countDown();
-//        }).start();
-//
-//        new Thread(() -> {
-//            this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-//                createWeId.getWeId());
-//            countDownLatch.countDown();
-//        }).start();
-//
-//        new Thread(() -> {
-//            this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
-//            countDownLatch.countDown();
-//        }).start();
-//        try {
-//            countDownLatch.await();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-        this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-            createWeId.getWeId());
-        this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-            createWeId.getWeId());
-        this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
+        CountDownLatch countDownLatch = new CountDownLatch(3);
+        new Thread(() -> {
+            this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+                createWeId.getWeId());
+            countDownLatch.countDown();
+        }).start();
+
+        new Thread(() -> {
+            this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+                createWeId.getWeId());
+            countDownLatch.countDown();
+        }).start();
+
+        new Thread(() -> {
+            this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
+            countDownLatch.countDown();
+        }).start();
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+//            createWeId.getWeId());
+//        this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+//            createWeId.getWeId());
+//        this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
         return createWeId;
     }
 

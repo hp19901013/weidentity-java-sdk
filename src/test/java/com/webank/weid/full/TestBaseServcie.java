@@ -21,6 +21,7 @@ package com.webank.weid.full;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -74,45 +75,34 @@ public abstract class TestBaseServcie extends BaseTest {
 
     protected static CreateWeIdDataResult createWeIdNew = null;
 
-    protected static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
-
-    protected static CreateCredentialArgs createCredentialArgs = null;
-
-    protected static RegisterCptArgs registerCptArgs = null;
-
-    protected static CptBaseInfo cptBaseInfo = null;
-
-
     /**
      * initializing related services.
      */
     @Override
-    public void testInit() {
-        if (!isInitIssuer) {
-            try {
-                issuerPrivateList.add(privateKey);
-                initIssuer("org1.txt");
-                isInitIssuer = true;
-            } catch (Exception e) {
-                logger.error("initIssuer error", e);
-                Assert.assertTrue(false);
-            }
+    public synchronized void testInit() {
+        CountDownLatch countDownLatch = new CountDownLatch(2);
+        if (createWeIdResult == null) {
+            new Thread(() -> {
+                createWeIdResult = this.createWeId();
+                countDownLatch.countDown();
+            }).start();
+        } else {
+            countDownLatch.countDown();
         }
-        if (null == createWeIdResult) {
-            createWeIdResult = this.createWeId();
+
+        if (createWeIdNew == null) {
+            new Thread(() -> {
+                createWeIdNew = this.createWeId();
+                countDownLatch.countDown();
+            }).start();
+        } else {
+            countDownLatch.countDown();
         }
-        if (null == createWeIdResultWithSetAttr) {
-            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
-        }
-        if (null == createWeIdNew) {
-            createWeIdNew = this.createWeId();
-        }
-        if (null == createCredentialArgs) {
-            registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
-            createCredentialArgs =
-                TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
-            cptBaseInfo = this.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
-            createCredentialArgs.setCptId(cptBaseInfo.getCptId());
+
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -122,7 +112,7 @@ public abstract class TestBaseServcie extends BaseTest {
      *
      * @param fileName fileName
      */
-    private void initIssuer(String fileName) {
+    protected void initIssuer(String fileName) {
 
         String[] pk = TestBaseUtil.resolvePk(fileName);
 
@@ -274,6 +264,28 @@ public abstract class TestBaseServcie extends BaseTest {
 
         CreateWeIdDataResult createWeId = this.createWeId();
 
+//        CountDownLatch countDownLatch = new CountDownLatch(3);
+//        new Thread(() -> {
+//            this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+//                createWeId.getWeId());
+//            countDownLatch.countDown();
+//        }).start();
+//
+//        new Thread(() -> {
+//            this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
+//                createWeId.getWeId());
+//            countDownLatch.countDown();
+//        }).start();
+//
+//        new Thread(() -> {
+//            this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
+//            countDownLatch.countDown();
+//        }).start();
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
             createWeId.getWeId());
         this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),

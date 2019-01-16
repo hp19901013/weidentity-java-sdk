@@ -29,9 +29,12 @@ import com.webank.weid.common.PasswordKey;
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.full.TestBaseServcie;
 import com.webank.weid.full.TestBaseUtil;
+import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
+import com.webank.weid.protocol.request.RegisterCptArgs;
 import com.webank.weid.protocol.request.VerifyCredentialArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 
 /**
@@ -45,13 +48,21 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
 
     private static final Logger logger =
         LoggerFactory.getLogger(TestVerifyCredentialWithSpecifiedPubKey.class);
-    
-    protected PasswordKey newPasswordKey = null;
-    
+
+    private static CptBaseInfo cptBaseInfo = null;
+    private static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
+    private static RegisterCptArgs registerCptArgs = null;
+
     @Override
-    public void testInit() {
+    public synchronized void testInit() {
         super.testInit();
-        newPasswordKey = TestBaseUtil.createEcKeyPair();
+        if (null == createWeIdResultWithSetAttr) {
+            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+        }
+        if(null == cptBaseInfo || null == registerCptArgs){
+            registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
+            cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
+        }
     }
 
     /**
@@ -59,6 +70,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase1() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -85,6 +97,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase2() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -114,6 +127,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase3() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -158,6 +172,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase5() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -185,6 +200,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase6() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -213,6 +229,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
      */
     @Test
     public void testVerifyCredentialWithSpecifiedPubKeyCase7() {
+        PasswordKey newPasswordKey = TestBaseUtil.createEcKeyPair();
 
         CreateCredentialArgs createCredentialArgs =
             TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);

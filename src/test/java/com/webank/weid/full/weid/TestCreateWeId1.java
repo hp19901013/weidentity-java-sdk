@@ -58,7 +58,6 @@ public class TestCreateWeId1 extends TestBaseServcie {
      */
     @Test
     public void testCreateWeIdCase1() {
-
         ResponseData<CreateWeIdDataResult> response = weIdService.createWeId();
         logger.info("createWeId result:");
         BeanUtil.print(response);

@@ -43,6 +43,7 @@ import com.webank.weid.full.TestBaseUtil;
 import com.webank.weid.protocol.base.Cpt;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.request.UpdateCptArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.util.DataTypetUtils;
 
@@ -56,11 +57,15 @@ import com.webank.weid.util.DataTypetUtils;
 public class TestQueryCpt extends TestBaseServcie {
     
     private static final Logger logger = LoggerFactory.getLogger(TestQueryCpt.class);
+    private static CptBaseInfo cptBaseInfo = null;
+    protected static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
 
-    @Override
-    public void testInit() {
+    public synchronized void testInit() {
 
         super.testInit();
+        if (null == createWeIdResultWithSetAttr) {
+            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+        }
         if (null == cptBaseInfo) {
             cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr);
         }

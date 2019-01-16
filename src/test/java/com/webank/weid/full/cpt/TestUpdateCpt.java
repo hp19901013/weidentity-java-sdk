@@ -48,6 +48,7 @@ import com.webank.weid.full.TestBaseUtil;
 import com.webank.weid.full.TestData;
 import com.webank.weid.protocol.base.Cpt;
 import com.webank.weid.protocol.base.CptBaseInfo;
+import com.webank.weid.protocol.request.RegisterCptArgs;
 import com.webank.weid.protocol.request.UpdateCptArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
@@ -55,45 +56,60 @@ import com.webank.weid.util.WeIdUtils;
 
 /**
  * updateCpt method for testing CptService.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestUpdateCpt extends TestBaseServcie {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestUpdateCpt.class);
+    private static CptBaseInfo cptBaseInfo = null;
+    private static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
+    private static RegisterCptArgs registerCptArgs = null;
 
     @Override
-    public void testInit() {
+    public synchronized void testInit() {
 
         super.testInit();
-        if (null == cptBaseInfo) {
-            cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr);
+        if (null == createWeIdResultWithSetAttr) {
+                createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+        }
+        if (null == cptBaseInfo || null == registerCptArgs) {
+            synchronized (TestUpdateCpt.class) {
+                registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
+                cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
+            }
         }
     }
 
-    /** 
+    /**
      * case： cpt updateCpt success.
      */
     @Test
     public void testUpdateCptCase1() {
 
+        long l = System.currentTimeMillis();
         CreateWeIdDataResult createWeId = super.createWeIdWithSetAttr();
+        System.out.println(System.currentTimeMillis() - l);
 
         CptBaseInfo cptBaseInfo = super.registerCpt(createWeId);
+        System.out.println(System.currentTimeMillis() - l);
 
         UpdateCptArgs updateCptArgs = TestBaseUtil.buildUpdateCptArgs(createWeId, cptBaseInfo);
+        System.out.println(System.currentTimeMillis() - l);
 
         ResponseData<CptBaseInfo> response = cptService.updateCpt(updateCptArgs);
+        System.out.println(System.currentTimeMillis() - l);
+
         logger.info("updateCpt result:");
         BeanUtil.print(response);
 
+        System.out.println(System.currentTimeMillis() - l);
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), response.getErrorCode().intValue());
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： updateCptArgs is null.
      */
     @Test
@@ -107,7 +123,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is null.
      */
     @Test
@@ -125,7 +141,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is minus number.
      */
     @Test
@@ -143,7 +159,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is not exists.
      */
     @Test
@@ -161,7 +177,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema is null.
      */
     @Test
@@ -180,7 +196,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema is invalid.
      */
     @Test
@@ -198,7 +214,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema too long.
      */
     @Test
@@ -229,7 +245,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is blank.
      */
     @Test
@@ -247,7 +263,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is invalid.
      */
     @Test
@@ -265,7 +281,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is not exists and the private key does not match.
      */
     @Test
@@ -288,7 +304,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         BeanUtil.print(responseCpt);
     }
 
-    /** 
+    /**
      * case： cptPublisherPrivateKey is null.
      */
     @Test
@@ -307,7 +323,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： private Key is null.
      */
     @Test
@@ -326,7 +342,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is invalid.
      */
     @Test
@@ -345,7 +361,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is new privateKey.
      */
     @Test
@@ -365,7 +381,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey belongs to SDK.
      */
     @Test
@@ -384,7 +400,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey belongs to new WeIdentity DID.
      */
     @Test
@@ -403,15 +419,14 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
-     * case： privateKey belongs to new WeIdentity DID , cptPublisher is a new WeId.
-     * [TIP] update success,we will deal with the two issue.
-     *  
+    /**
+     * case： privateKey belongs to new WeIdentity DID , cptPublisher is a new WeId. [TIP] update
+     * success,we will deal with the two issue.
      */
     @Test
     public void testUpdateCptCase18() {
 
-        UpdateCptArgs updateCptArgs = 
+        UpdateCptArgs updateCptArgs =
             TestBaseUtil.buildUpdateCptArgs(createWeIdResult, cptBaseInfo);
         updateCptArgs.setCptPublisher(createWeIdNew.getWeId());
         updateCptArgs.setCptPublisherPrivateKey(createWeIdNew.getUserWeIdPrivateKey());
@@ -424,7 +439,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is xxxxxxx.
      */
     @Test
@@ -443,7 +458,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is not exists , but private key matching.
      */
     @Test
@@ -470,7 +485,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         BeanUtil.print(responseCpt);
     }
 
-    /** 
+    /**
      * case： mock an InterruptedException.
      */
     @Test(groups = "MockUp")
@@ -491,7 +506,7 @@ public class TestUpdateCpt extends TestBaseServcie {
     private ResponseData<CptBaseInfo> updateCptForMock(
         UpdateCptArgs updateCptArgs,
         MockUp<Future<?>> mockFuture) {
-        
+
         MockUp<CptController> mockTest = new MockUp<CptController>() {
             @Mock
             public Future<?> updateCpt(
@@ -516,7 +531,7 @@ public class TestUpdateCpt extends TestBaseServcie {
         return response;
     }
 
-    /** 
+    /**
      * case： mock an TimeoutException.
      */
     @Test(groups = "MockUp")

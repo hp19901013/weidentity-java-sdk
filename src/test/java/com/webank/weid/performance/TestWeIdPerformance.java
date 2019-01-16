@@ -22,6 +22,7 @@ package com.webank.weid.performance;
 import java.io.IOException;
 
 import org.junit.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,7 @@ import com.webank.weid.protocol.response.ResponseData;
  * @author v_wbgyang
  *
  */
-@Test(groups = "all")
+@Test(groups = "all" )
 public class TestWeIdPerformance extends BaseTest {
     
     private static final Logger logger = LoggerFactory.getLogger(TestWeIdPerformance.class);
@@ -88,6 +89,7 @@ public class TestWeIdPerformance extends BaseTest {
     /**
      * setService.
      */
+    @Test(groups = "ignore")
     public void setService(
         CreateWeIdDataResult createResult,
         String serviceType,
@@ -113,6 +115,7 @@ public class TestWeIdPerformance extends BaseTest {
     /**
      * getWeIdDom.
      */
+    @Ignore
     public WeIdDocument getWeIdDom(String weId) {
 
         // get weIdDom

@@ -68,12 +68,12 @@ public class TestRegisterCpt extends TestBaseServcie {
     private static CreateWeIdDataResult createWeId = null;
 
     @Override
-    public void testInit() {
+    public synchronized void testInit() {
 
         super.testInit();
         if (null == createWeId) {
-            createWeId = super.createWeId();
-            super.registerAuthorityIssuer(createWeId);
+               createWeId = super.createWeId();
+               super.registerAuthorityIssuer(createWeId);
         }
     }
 

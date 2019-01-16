@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
 
 import com.webank.weid.rpc.AuthorityIssuerService;
 import com.webank.weid.rpc.CptService;
@@ -59,25 +58,23 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
     protected ToolConf toolConf;
 
     /**
-     * the private key of sdk is a BigInteger,which needs to be used
-     * when registering authority.
-     *
+     * the private key of sdk is a BigInteger,which needs to be used when registering authority.
      */
     protected static String privateKey;
 
     /**
-     *  initialization some for test.
-     *
+     * initialization some for test.
      */
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        privateKey = new BigInteger(toolConf.getPrivKey(), 16).toString();
+        if (privateKey == null) {
+            privateKey = new BigInteger(toolConf.getPrivKey(), 16).toString();
+        }
         testInit();
     }
 
     /**
-     *  tearDown some for test.
-     *
+     * tearDown some for test.
      */
 //    @AfterMethod
     public void tearDown() {

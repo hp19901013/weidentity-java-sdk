@@ -38,15 +38,14 @@ import com.webank.weid.protocol.response.ResponseData;
 
 /**
  * getWeIdDocumentJson method for testing WeIdService.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestGetWeIdDocumentJson extends TestBaseServcie {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestGetWeIdDocumentJson.class);
-    
+
     protected static CreateWeIdDataResult createWeIdForGetJson = null;
 
     @Override
@@ -56,10 +55,9 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
             createWeIdForGetJson = super.createWeIdWithSetAttr();
         }
     }
-    
+
     /**
      * case: success.
-     *
      */
     @Test
     public void testGetWeIdDocumentJsonCase1() {
@@ -75,7 +73,6 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
 
     /**
      * case: set many times.
-     *
      */
     @Test
     public void testGetWeIdDocumentJsonCase2() {
@@ -101,7 +98,6 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
 
     /**
      * case: WeIdentity DID is invalid.
-     *
      */
     @Test
     public void testGetWeIdDocumentJsonCase3() {
@@ -116,7 +112,6 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
 
     /**
      * case: WeIdentity DID is null.
-     *
      */
     @Test
     public void testGetWeIdDocumentJsonCase4() {
@@ -131,7 +126,6 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
 
     /**
      * case: WeIdentity DID is not exists.
-     *
      */
     @Test
     public void testGetWeIdDocumentJsonCase5() {
@@ -147,9 +141,7 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
     }
 
     /**
-     * case: Simulation throws an Exception when calling the
-     *       writerWithDefaultPrettyPrinter method.
-     * 
+     * case: Simulation throws an Exception when calling the writerWithDefaultPrettyPrinter method.
      */
     @Test(groups = "MockUp")
     public void testGetWeIdDocumentJsonCase6() {

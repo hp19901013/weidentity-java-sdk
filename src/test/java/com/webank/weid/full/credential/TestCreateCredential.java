@@ -31,30 +31,39 @@ import com.webank.weid.full.TestBaseUtil;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
+import com.webank.weid.protocol.request.RegisterCptArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 
 /**
  * createCredential method for testing CredentialService.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestCreateCredential extends TestBaseServcie {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestCreateCredential.class);
+    private static CptBaseInfo cptBaseInfo = null;
+    private static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
+    private static RegisterCptArgs registerCptArgs = null;
 
     @Override
-    public void testInit() {
-
+    public synchronized void testInit() {
         super.testInit();
-        if (null == cptBaseInfo) {
-            cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr);
+        if (null == createWeIdResultWithSetAttr) {
+            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+        }
+        if (null == cptBaseInfo || null == registerCptArgs) {
+            synchronized (TestCreateCredential.class) {
+                registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
+                cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
+            }
         }
     }
 
-    /** 
-     * case：createCredential success. 
+    /**
+     * case：createCredential success.
      */
     @Test
     public void testCreateCredentialCase1() {
@@ -71,7 +80,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case: createCredentialArgs is null.
      */
     @Test
@@ -85,7 +94,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case：cptId is null.
      */
     @Test
@@ -105,7 +114,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is minus number.
      */
     @Test
@@ -124,7 +133,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is not exists.
      */
     @Test
@@ -143,7 +152,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptId is belongs to others weIdentity dId.
      */
     @Test
@@ -164,7 +173,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： issuer is null.
      */
     @Test
@@ -184,7 +193,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： issuer is invalid.
      */
     @Test
@@ -204,7 +213,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： issuer is not exists.
      */
     @Test
@@ -223,7 +232,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： expirationDate <= 0.
      */
     @Test
@@ -243,7 +252,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： expirationDate <= now.
      */
     @Test
@@ -262,7 +271,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： claim is null.
      */
     @Test
@@ -282,7 +291,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： claim is xxxxxxx.
      */
     @Test
@@ -301,7 +310,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： weIdPrivateKey is null.
      */
     @Test
@@ -321,7 +330,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is null.
      */
     @Test
@@ -341,7 +350,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is xxxxxxxxxxx.
      */
     @Test
@@ -361,7 +370,7 @@ public class TestCreateCredential extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is 11111111111111.
      */
     @Test

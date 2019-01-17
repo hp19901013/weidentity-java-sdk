@@ -21,7 +21,7 @@ package com.webank.weid.demo;
 
 import java.text.ParseException;
 
-import com.webank.weid.common.BeanUtil;
+import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.WeIdDocument;

@@ -244,7 +244,7 @@ public abstract class TestBaseServcie extends BaseTest {
     protected void registerAuthorityIssuer(CreateWeIdDataResult createWeId) {
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =
-            TestBaseUtil.buildRegisterAuthorityIssuerArgs(createWeId, privateKey);
+            TestBaseUtil.buildRegisterAuthorityIssuerArgs(createWeId, super.privateKey);
 
         ResponseData<Boolean> response =
             authorityIssuerService.registerAuthorityIssuer(registerAuthorityIssuerArgs);
@@ -286,11 +286,6 @@ public abstract class TestBaseServcie extends BaseTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        this.setPublicKey(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-//            createWeId.getWeId());
-//        this.setAuthentication(createWeId, createWeId.getUserWeIdPublicKey().getPublicKey(),
-//            createWeId.getWeId());
-//        this.setService(createWeId, TestData.serviceType, TestData.serviceEndpoint);
         return createWeId;
     }
 
@@ -330,7 +325,6 @@ public abstract class TestBaseServcie extends BaseTest {
         setPublicKeyArgs.setOwner(owner);
 
         ResponseData<Boolean> responseSetPub = weIdService.setPublicKey(setPublicKeyArgs);
-        logger.info("setPublicKey result:");
         BeanUtil.print(responseSetPub);
 
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), responseSetPub.getErrorCode().intValue());
@@ -357,7 +351,6 @@ public abstract class TestBaseServcie extends BaseTest {
         ResponseData<Boolean> responseSetSer = weIdService.setService(setServiceArgs);
         logger.info("setService result:");
         BeanUtil.print(responseSetSer);
-
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), responseSetSer.getErrorCode().intValue());
         Assert.assertEquals(true, responseSetSer.getResult());
     }
@@ -381,9 +374,7 @@ public abstract class TestBaseServcie extends BaseTest {
         setAuthenticationArgs.setPublicKey(publicKey);
         ResponseData<Boolean> responseSetAuth =
             weIdService.setAuthentication(setAuthenticationArgs);
-        logger.info("setAuthentication result:");
         BeanUtil.print(responseSetAuth);
-
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), responseSetAuth.getErrorCode().intValue());
         Assert.assertEquals(true, responseSetAuth.getResult());
     }

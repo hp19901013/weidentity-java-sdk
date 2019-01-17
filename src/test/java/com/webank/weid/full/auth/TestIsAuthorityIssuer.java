@@ -44,6 +44,7 @@ import com.webank.weid.protocol.response.ResponseData;
  *
  * @author v_wbgyang
  */
+@Test(groups = "all")
 public class TestIsAuthorityIssuer extends TestBaseServcie {
 
     private static final Logger logger = LoggerFactory.getLogger(TestIsAuthorityIssuer.class);
@@ -165,7 +166,7 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     /**
      * case: Simulation throws an InterruptedException when calling the isAuthorityIssuer method.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsAuthorityIssuerCase7() {
 
         MockUp<Future<?>> mockFuture = mockInterruptedFuture();
@@ -180,7 +181,7 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     /**
      * case: Simulation throws an TimeoutException when calling the isAuthorityIssuer method.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsAuthorityIssuerCase8() {
 
         MockUp<Future<?>> mockFuture = mockTimeoutFuture();
@@ -214,7 +215,7 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     /**
      * case: Simulation returns null when invoking the isAuthorityIssuer method.
      */
-    @Test
+    @Test(groups = "MockUp")
     public void testIsAuthorityIssuerCase9() {
 
         MockUp<AuthorityIssuerController> mockTest = new MockUp<AuthorityIssuerController>() {

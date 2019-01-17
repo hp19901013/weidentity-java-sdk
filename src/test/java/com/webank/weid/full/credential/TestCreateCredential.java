@@ -19,9 +19,9 @@
 
 package com.webank.weid.full.credential;
 
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.webank.weid.common.BeanUtil;
@@ -51,14 +51,12 @@ public class TestCreateCredential extends TestBaseServcie {
     @Override
     public synchronized void testInit() {
         super.testInit();
-        if (null == createWeIdResultWithSetAttr) {
-            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+        if (null == this.createWeIdResultWithSetAttr) {
+            this.createWeIdResultWithSetAttr = super.createWeIdWithSetAttr();
         }
-        if (null == cptBaseInfo || null == registerCptArgs) {
-            synchronized (TestCreateCredential.class) {
-                registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
-                cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
-            }
+        if (null == this.cptBaseInfo || null == this.registerCptArgs) {
+            this.registerCptArgs = TestBaseUtil.buildRegisterCptArgs(this.createWeIdResultWithSetAttr);
+            this.cptBaseInfo = super.registerCpt(this.createWeIdResultWithSetAttr, this.registerCptArgs);
         }
     }
 
@@ -83,7 +81,7 @@ public class TestCreateCredential extends TestBaseServcie {
     /**
      * case: createCredentialArgs is null.
      */
-    @Test
+    @Test(groups = "testCreateCredential")
     public void testCreateCredentialCase2() {
 
         ResponseData<Credential> response = credentialService.createCredential(null);
@@ -97,7 +95,6 @@ public class TestCreateCredential extends TestBaseServcie {
     /**
      * case：cptId is null.
      */
-    @Test
     public void testCreateCredentialCase3() {
 
         CreateCredentialArgs createCredentialArgs =

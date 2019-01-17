@@ -301,7 +301,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
      */
     @Test
     public void testRemoveAuthorityIssuerCase12() {
-
+        long l = System.currentTimeMillis();
         CreateWeIdDataResult createWeId = super.createWeId();
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =
@@ -320,7 +320,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
             authorityIssuerService.removeAuthorityIssuer(removeAuthorityIssuerArgs);
         logger.info("removeAuthorityIssuer result:");
         BeanUtil.print(response);
-
+        System.out.println(System.currentTimeMillis() - l);
         Assert.assertEquals(ErrorCode.AUTHORITY_ISSUER_CONTRACT_ERROR_NO_PERMISSION.getCode(),
             response.getErrorCode().intValue());
         Assert.assertEquals(false, response.getResult());

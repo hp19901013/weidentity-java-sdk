@@ -24,7 +24,7 @@ import java.util.concurrent.Future;
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,19 +51,10 @@ public class TestGetWeIdDocument extends TestBaseServcie {
     protected static CreateWeIdDataResult createWeIdForGetDoc = null;
 
     public synchronized void testInit() {
-//        super.testInit();
-//        if (null == createWeIdForGetDoc) {
-//            createWeIdForGetDoc = super.createWeIdWithSetAttr();
-//            System.out.println("测试createWeIdForGetDoc：" + createWeIdForGetDoc);
-//        }
-    }
-
-    @Test
-    public void testGetWeIdDocument() {
-
-        ResponseData<WeIdDocument> weIdDoc = weIdService
-            .getWeIdDocument("did:weid:0x334073942f9223e8e26d292d01fbdfe0529603a7");
-        BeanUtil.print(weIdDoc);
+        super.testInit();
+        if (null == createWeIdForGetDoc) {
+            createWeIdForGetDoc = super.createWeIdWithSetAttr();
+        }
     }
 
     /**
@@ -71,8 +62,9 @@ public class TestGetWeIdDocument extends TestBaseServcie {
      */
     @Test
     public void testGetWeIdDocumentCase1() {
+        CreateWeIdDataResult weIdWithSetAttr = super.createWeIdWithSetAttr();
         ResponseData<WeIdDocument> weIdDoc =
-            weIdService.getWeIdDocument(createWeIdForGetDoc.getWeId());
+            weIdService.getWeIdDocument(weIdWithSetAttr.getWeId());
         logger.info("getWeIdDocument result:");
         BeanUtil.print(weIdDoc);
 
@@ -91,12 +83,16 @@ public class TestGetWeIdDocument extends TestBaseServcie {
         super.setPublicKey(createWeIdForGetDoc,
             TestBaseUtil.createEcKeyPair().getPublicKey(),
             createWeIdNew.getWeId());
+        logger.info("testGetWeIdDocumentCase2 setPublicKey" + createWeIdForGetDoc);
         super.setAuthentication(createWeIdForGetDoc,
             TestBaseUtil.createEcKeyPair().getPublicKey(),
             createWeIdForGetDoc.getWeId());
+        logger.info("testGetWeIdDocumentCase2 setAuthentication" + createWeIdForGetDoc);
+
         super.setService(createWeIdForGetDoc,
             "drivingCardServic1",
             "https://weidentity.webank.com/endpoint/8377465");
+        logger.info("testGetWeIdDocumentCase2 setService" + createWeIdForGetDoc);
 
         ResponseData<WeIdDocument> weIdDoc =
             weIdService.getWeIdDocument(createWeIdForGetDoc.getWeId());

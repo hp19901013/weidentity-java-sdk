@@ -53,6 +53,7 @@ public class TestVerifyCredential extends TestBaseServcie {
     private static Credential credentialInfo = null;
     private static RegisterCptArgs registerCptArgs = null;
 
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (null == createWeIdResultWithSetAttr) {

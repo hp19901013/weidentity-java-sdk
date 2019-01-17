@@ -51,6 +51,7 @@ public class TestGetWeIdDocument extends TestBaseServcie {
 
     protected static CreateWeIdDataResult createWeIdForGetDoc = null;
 
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (null == createWeIdForGetDoc) {

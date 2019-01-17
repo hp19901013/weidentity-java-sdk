@@ -55,7 +55,7 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
 
     private static CreateWeIdDataResult createWeId;
 
-    @Override
+    @Test(groups = "ignore")
     public synchronized void testInit() {
 
         if (null == createWeId) {

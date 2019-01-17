@@ -69,7 +69,7 @@ public class TestRegisterCpt extends TestBaseServcie {
 
     private static CreateWeIdDataResult createWeId = null;
 
-    @Override
+    @Test(groups = "ignore")
     public synchronized void testInit() {
 
         super.testInit();

@@ -61,6 +61,7 @@ public class TestQueryCpt extends TestBaseServcie {
     private static CptBaseInfo cptBaseInfo = null;
     protected static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
 
+    @Test(groups = "ignore")
     public synchronized void testInit() {
 
         super.testInit();

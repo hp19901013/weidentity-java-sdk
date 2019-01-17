@@ -48,7 +48,7 @@ public class TestGetWeIdDocumentJson extends TestBaseServcie {
 
     protected static CreateWeIdDataResult createWeIdForGetJson = null;
 
-    @Override
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (null == createWeIdForGetJson) {

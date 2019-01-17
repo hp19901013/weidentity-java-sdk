@@ -19,11 +19,6 @@
 
 package com.webank.weid.testcase.credential;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
@@ -31,9 +26,14 @@ import com.webank.weid.protocol.request.CreateCredentialArgs;
 import com.webank.weid.protocol.request.RegisterCptArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestBaseUtil;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 
 /**
@@ -49,7 +49,7 @@ public class TestCreateCredential extends TestBaseServcie {
     private static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
     private static RegisterCptArgs registerCptArgs = null;
 
-    @Override
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (null == this.createWeIdResultWithSetAttr) {

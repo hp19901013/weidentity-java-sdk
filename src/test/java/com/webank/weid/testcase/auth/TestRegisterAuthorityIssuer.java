@@ -58,6 +58,7 @@ public class TestRegisterAuthorityIssuer extends TestBaseServcie {
     private static final Logger logger =
         LoggerFactory.getLogger(TestRegisterAuthorityIssuer.class);
 
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (!isInitIssuer) {

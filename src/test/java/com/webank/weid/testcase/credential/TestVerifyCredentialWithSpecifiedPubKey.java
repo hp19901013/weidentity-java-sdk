@@ -53,7 +53,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
     private static CreateWeIdDataResult createWeIdResultWithSetAttr = null;
     private static RegisterCptArgs registerCptArgs = null;
 
-    @Override
+    @Test(groups = "ignore")
     public synchronized void testInit() {
         super.testInit();
         if (null == createWeIdResultWithSetAttr) {

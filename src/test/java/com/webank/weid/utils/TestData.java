@@ -17,7 +17,7 @@
  *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.webank.weid.testcase;
+package com.webank.weid.utils;
 
 /**
  * The function of this class is to test the basic data required.

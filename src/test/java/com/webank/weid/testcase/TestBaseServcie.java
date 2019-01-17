@@ -40,6 +40,8 @@ import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.util.WeIdUtils;
 import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestData;
 
 import org.junit.Assert;
 import org.slf4j.Logger;

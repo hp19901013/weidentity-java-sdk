@@ -27,7 +27,7 @@ import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestMockException;
 
@@ -171,9 +171,7 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     public void testIsAuthorityIssuerCase7() {
 
         MockUp<Future<?>> mockFuture = TestMockException.mockInterruptedFuture();
-
         ResponseData<Boolean> response = isAuthorityIssuerForMock(mockFuture);
-
         Assert.assertEquals(ErrorCode.TRANSACTION_EXECUTE_ERROR.getCode(),
             response.getErrorCode().intValue());
         Assert.assertEquals(false, response.getResult());
@@ -186,7 +184,6 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     public void testIsAuthorityIssuerCase8() {
 
         MockUp<Future<?>> mockFuture = TestMockException.mockTimeoutFuture();
-
         ResponseData<Boolean> response = isAuthorityIssuerForMock(mockFuture);
 
         Assert.assertEquals(ErrorCode.TRANSACTION_TIMEOUT.getCode(),

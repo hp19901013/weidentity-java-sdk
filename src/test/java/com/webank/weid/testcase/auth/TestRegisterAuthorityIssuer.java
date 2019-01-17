@@ -30,7 +30,7 @@ import com.webank.weid.protocol.request.RegisterAuthorityIssuerArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestMockException;
 
@@ -59,6 +59,7 @@ public class TestRegisterAuthorityIssuer extends TestBaseServcie {
         LoggerFactory.getLogger(TestRegisterAuthorityIssuer.class);
 
     public synchronized void testInit() {
+        super.testInit();
         if (!isInitIssuer) {
             try {
                 issuerPrivateList.add(privateKey);

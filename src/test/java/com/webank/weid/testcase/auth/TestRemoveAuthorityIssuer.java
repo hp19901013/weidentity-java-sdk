@@ -32,7 +32,7 @@ import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestMockException;
 
@@ -166,7 +166,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
         BeanUtil.print(response1);
 
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), response1.getErrorCode().intValue());
-        Assert.assertFalse(response1.getResult());
+        Assert.assertTrue(response1.getResult());
         return removeAuthorityIssuerArgs;
     }
 
@@ -185,7 +185,7 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
 
         Assert.assertEquals(ErrorCode.AUTHORITY_ISSUER_CONTRACT_ERROR_NOT_EXISTS.getCode(),
             response.getErrorCode().intValue());
-        Assert.assertTrue(response.getResult());
+        Assert.assertFalse(response.getResult());
     }
 
     /**

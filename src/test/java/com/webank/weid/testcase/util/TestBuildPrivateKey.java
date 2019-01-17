@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 
 /**
  * the role of this class is to handle the private key required 

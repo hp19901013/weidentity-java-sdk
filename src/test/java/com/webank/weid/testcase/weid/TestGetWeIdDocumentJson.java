@@ -23,7 +23,7 @@ import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.BeanUtil;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

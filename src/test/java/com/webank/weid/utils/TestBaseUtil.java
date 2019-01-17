@@ -17,7 +17,7 @@
  *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.webank.weid.testcase;
+package com.webank.weid.utils;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -48,8 +48,6 @@ import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.request.UpdateCptArgs;
 import com.webank.weid.protocol.request.VerifyCredentialArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.PasswordKey;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bcos.web3j.crypto.ECKeyPair;

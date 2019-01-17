@@ -30,8 +30,8 @@ import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.service.impl.CredentialServiceImpl;
 import com.webank.weid.service.impl.WeIdServiceImpl;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
-import com.webank.weid.testcase.TestData;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestData;
 import com.webank.weid.utils.PasswordKey;
 
 import mockit.Mock;

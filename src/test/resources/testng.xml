@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="suiteName">
+<suite name="suiteName" parallel="false">
     <test name="test1" parallel="methods" thread-count="50">
         <groups>
             <run>
@@ -13,14 +13,14 @@
             <package name="com.webank.weid.*"/>
         </packages>
     </test>
-    <!--    <test name="test2" verbose="10" parallel="false">
-            <groups>
-                <run>
-                    <include name="MockUp"/>
-                </run>
-            </groups>
-            <packages>
-                <package name="com.webank.weid.*"/>
-            </packages>
-        </test>-->
+    <test name="test2" verbose="10" parallel="false">
+        <groups>
+            <run>
+                <include name="MockUp"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.webank.weid.*"/>
+        </packages>
+    </test>
 </suite>

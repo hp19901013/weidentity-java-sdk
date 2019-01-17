@@ -32,7 +32,7 @@ import com.webank.weid.protocol.request.UpdateCptArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.testcase.TestBaseUtil;
+import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.util.DataTypetUtils;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestMockException;

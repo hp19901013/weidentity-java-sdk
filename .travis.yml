@@ -21,7 +21,7 @@ before_install:
 script: 
   - chmod +x ci/script/build-ci.sh
   - ci/script/build-ci.sh
-  - travis_wait 30 ./gradlew test
+  - travis_wait 10 ./gradlew check
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

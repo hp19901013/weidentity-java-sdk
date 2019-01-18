@@ -22,21 +22,6 @@ package com.webank.weid.testcase.cpt;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.CptController;
-import com.webank.weid.exception.DataTypeCastException;
-import com.webank.weid.exception.WeIdBaseException;
-import com.webank.weid.protocol.base.Cpt;
-import com.webank.weid.protocol.base.CptBaseInfo;
-import com.webank.weid.protocol.request.UpdateCptArgs;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.util.DataTypetUtils;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.TestMockException;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.DynamicArray;
@@ -47,6 +32,21 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.CptController;
+import com.webank.weid.exception.DataTypeCastException;
+import com.webank.weid.exception.WeIdBaseException;
+import com.webank.weid.protocol.base.Cpt;
+import com.webank.weid.protocol.base.CptBaseInfo;
+import com.webank.weid.protocol.request.UpdateCptArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.util.DataTypetUtils;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * queryCpt method for testing CptService.

@@ -23,22 +23,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import com.webank.weid.BaseTest;
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.CptController;
-import com.webank.weid.contract.CptController.RegisterCptRetLogEventResponse;
-import com.webank.weid.protocol.base.CptBaseInfo;
-import com.webank.weid.protocol.request.RegisterCptArgs;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.TestData;
-import com.webank.weid.util.WeIdUtils;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.PasswordKey;
-import com.webank.weid.utils.TestMockException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,15 +40,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
+import com.webank.weid.BaseTest;
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.CptController;
+import com.webank.weid.contract.CptController.RegisterCptRetLogEventResponse;
+import com.webank.weid.protocol.base.CptBaseInfo;
+import com.webank.weid.protocol.request.RegisterCptArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.util.WeIdUtils;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.PasswordKey;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestData;
+import com.webank.weid.utils.TestMockException;
+
 /**
  * registerCpt method for testing CptService.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestRegisterCpt extends TestBaseServcie {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestRegisterCpt.class);
 
     private static CreateWeIdDataResult createWeId = null;
@@ -74,12 +73,12 @@ public class TestRegisterCpt extends TestBaseServcie {
 
         super.testInit();
         if (null == createWeId) {
-               createWeId = super.createWeId();
-               super.registerAuthorityIssuer(createWeId);
+            createWeId = super.createWeId();
+            super.registerAuthorityIssuer(createWeId);
         }
     }
 
-    /** 
+    /**
      * case： cpt register success.
      */
     @Test
@@ -95,7 +94,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： registerCptArgs is null.
      */
     @Test
@@ -109,7 +108,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema is null.
      */
     @Test
@@ -127,7 +126,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema is invalid.
      */
     @Test
@@ -144,7 +143,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptJsonSchema too long.
      */
     @Test
@@ -174,7 +173,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is blank.
      */
     @Test
@@ -191,7 +190,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is invalid.
      */
     @Test
@@ -208,7 +207,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is not exists and the private key does not match.
      */
     @Test
@@ -226,7 +225,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cpt register again.
      */
     @Test
@@ -249,7 +248,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNotNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisherPrivateKey is null.
      */
     @Test
@@ -267,7 +266,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is null.
      */
     @Test
@@ -285,7 +284,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is invalid.
      */
     @Test
@@ -305,7 +304,6 @@ public class TestRegisterCpt extends TestBaseServcie {
 
     /**
      * case： privateKey is new privateKey.
-     * 
      */
     @Test
     public void testRegisterCptCase13() {
@@ -323,7 +321,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is SDK privateKey.
      */
     @Test
@@ -341,7 +339,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： privateKey is xxxxxxxxx.
      */
     @Test
@@ -359,9 +357,8 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： cptPublisher is not exists and the private key is match.
-     * 
      */
     @Test
     public void testRegisterCptCase16() {
@@ -382,7 +379,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： mock an InterruptedException.
      */
     @Test(groups = "MockUp")
@@ -399,7 +396,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         Assert.assertNull(response.getResult());
     }
 
-    /** 
+    /**
      * case： mock an TimeoutException.
      */
     @Test(groups = "MockUp")
@@ -419,7 +416,7 @@ public class TestRegisterCpt extends TestBaseServcie {
     private ResponseData<CptBaseInfo> registerCptForMock(
         RegisterCptArgs registerCptArgs,
         MockUp<Future<?>> mockFuture) {
-        
+
         MockUp<CptController> mockTest = new MockUp<CptController>() {
             @Mock
             public Future<?> registerCpt(
@@ -443,7 +440,7 @@ public class TestRegisterCpt extends TestBaseServcie {
         return response;
     }
 
-    /** 
+    /**
      * case： mock returns null.
      */
     @Test(groups = "MockUp")

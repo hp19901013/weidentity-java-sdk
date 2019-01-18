@@ -21,13 +21,13 @@ package com.webank.weid.testcase.util;
 
 import java.util.UUID;
 
+import org.junit.Assert;
+import org.testng.annotations.Test;
+
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
 import com.webank.weid.protocol.request.VerifyCredentialArgs;
 import com.webank.weid.util.CredentialUtils;
-
-import org.junit.Assert;
-import org.testng.annotations.Test;
 
 /**
  * test crentialUtils.

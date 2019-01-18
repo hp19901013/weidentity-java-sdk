@@ -21,18 +21,17 @@ package com.webank.weid.testcase.util;
 
 import java.util.Arrays;
 
-import com.webank.weid.util.HashUtils;
-
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
+import com.webank.weid.util.HashUtils;
+
 /**
  * test HashUtils.
- * 
- * @author v_wbjnzhang
  *
+ * @author v_wbjnzhang
  */
 @Test(groups = "all")
 public class TestHashUtils {

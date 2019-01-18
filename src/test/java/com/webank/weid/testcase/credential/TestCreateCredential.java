@@ -19,6 +19,11 @@
 
 package com.webank.weid.testcase.credential;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
@@ -29,11 +34,6 @@ import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestBaseUtil;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 
 /**
@@ -56,8 +56,10 @@ public class TestCreateCredential extends TestBaseServcie {
             this.createWeIdResultWithSetAttr = super.createWeIdWithSetAttr();
         }
         if (null == this.cptBaseInfo || null == this.registerCptArgs) {
-            this.registerCptArgs = TestBaseUtil.buildRegisterCptArgs(this.createWeIdResultWithSetAttr);
-            this.cptBaseInfo = super.registerCpt(this.createWeIdResultWithSetAttr, this.registerCptArgs);
+            this.registerCptArgs = TestBaseUtil
+                .buildRegisterCptArgs(this.createWeIdResultWithSetAttr);
+            this.cptBaseInfo = super
+                .registerCpt(this.createWeIdResultWithSetAttr, this.registerCptArgs);
         }
     }
 

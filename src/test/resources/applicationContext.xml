@@ -47,7 +47,7 @@
     </bean>
     <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" id="pool">
         <property name="corePoolSize" value="150"/>
-        <property name="maxPoolSize" value="4000"/>
+        <property name="maxPoolSize" value="400"/>
         <property name="queueCapacity" value="20"/>
         <property name="keepAliveSeconds" value="60"/>
         <property name="rejectedExecutionHandler">

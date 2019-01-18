@@ -21,16 +21,6 @@ package com.webank.weid.testcase.weid;
 
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.WeIdContract;
-import com.webank.weid.protocol.base.WeIdDocument;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.TestMockException;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
@@ -38,6 +28,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.WeIdContract;
+import com.webank.weid.protocol.base.WeIdDocument;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * getWeIdDocument method for testing WeIdService.

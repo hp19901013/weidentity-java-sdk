@@ -19,13 +19,6 @@
 
 package com.webank.weid.testcase.weid;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.BeanUtil;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import mockit.Mock;
@@ -35,6 +28,13 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
 
 /**
  * getWeIdDocumentJson method for testing WeIdService.

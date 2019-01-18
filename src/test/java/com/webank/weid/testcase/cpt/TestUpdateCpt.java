@@ -22,22 +22,6 @@ package com.webank.weid.testcase.cpt;
 import java.io.IOException;
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.CptController;
-import com.webank.weid.protocol.base.Cpt;
-import com.webank.weid.protocol.base.CptBaseInfo;
-import com.webank.weid.protocol.request.RegisterCptArgs;
-import com.webank.weid.protocol.request.UpdateCptArgs;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.TestData;
-import com.webank.weid.util.WeIdUtils;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.PasswordKey;
-import com.webank.weid.utils.TestMockException;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,6 +38,22 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.CptController;
+import com.webank.weid.protocol.base.Cpt;
+import com.webank.weid.protocol.base.CptBaseInfo;
+import com.webank.weid.protocol.request.RegisterCptArgs;
+import com.webank.weid.protocol.request.UpdateCptArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.util.WeIdUtils;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.PasswordKey;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestData;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * updateCpt method for testing CptService.
@@ -73,7 +73,7 @@ public class TestUpdateCpt extends TestBaseServcie {
 
         super.testInit();
         if (null == createWeIdResultWithSetAttr) {
-                createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
+            createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
         }
         if (null == cptBaseInfo || null == registerCptArgs) {
             synchronized (TestUpdateCpt.class) {

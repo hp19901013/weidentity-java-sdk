@@ -23,6 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.webank.weid.BaseTest;
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.CptBaseInfo;
@@ -42,10 +46,6 @@ import com.webank.weid.util.WeIdUtils;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.TestData;
-
-import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * testing basic method classes.

@@ -27,13 +27,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
+import org.testng.annotations.Test;
+
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.PasswordKey;
-
-import org.junit.Assert;
-import org.testng.annotations.Test;
 
 /**
  * test for BeanUtil.

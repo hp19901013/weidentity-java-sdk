@@ -19,6 +19,11 @@
 
 package com.webank.weid.testcase.credential;
 
+import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
+
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
@@ -28,20 +33,14 @@ import com.webank.weid.protocol.request.VerifyCredentialArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.BeanUtil;
 import com.webank.weid.utils.PasswordKey;
-
-import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
+import com.webank.weid.utils.TestBaseUtil;
 
 /**
  * verifyCredentialWithSpecifiedPubKey method for testing CredentialService.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
@@ -59,7 +58,7 @@ public class TestVerifyCredentialWithSpecifiedPubKey extends TestBaseServcie {
         if (null == createWeIdResultWithSetAttr) {
             createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
         }
-        if(null == cptBaseInfo || null == registerCptArgs){
+        if (null == cptBaseInfo || null == registerCptArgs) {
             registerCptArgs = TestBaseUtil.buildRegisterCptArgs(createWeIdResultWithSetAttr);
             cptBaseInfo = super.registerCpt(createWeIdResultWithSetAttr, registerCptArgs);
         }

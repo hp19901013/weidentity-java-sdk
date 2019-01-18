@@ -76,9 +76,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
     /**
      * tearDown some for test.
      */
-//    @AfterMethod
     public void tearDown() {
-
         authorityIssuerService = null;
         cptService = null;
         weIdService = null;
@@ -96,7 +94,4 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(true);
     }
 
-/*    public int getBlockNumber() throws IOException {
-        return super.getWeb3j().ethBlockNumber().send().getBlockNumber().intValue();
-    }*/
 }

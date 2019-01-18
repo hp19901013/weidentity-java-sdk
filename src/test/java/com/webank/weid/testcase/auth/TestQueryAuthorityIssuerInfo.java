@@ -22,17 +22,6 @@ package com.webank.weid.testcase.auth;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.AuthorityIssuerController;
-import com.webank.weid.protocol.base.AuthorityIssuer;
-import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.TestMockException;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
@@ -41,6 +30,17 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.AuthorityIssuerController;
+import com.webank.weid.protocol.base.AuthorityIssuer;
+import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * queryAuthorityIssuerInfo method for testing AuthorityIssuerService.

@@ -4,8 +4,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.webank.weid.contract.WeIdContract;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.abi.datatypes.Address;
@@ -13,8 +11,14 @@ import org.bcos.web3j.abi.datatypes.DynamicBytes;
 import org.bcos.web3j.abi.datatypes.generated.Bytes32;
 import org.bcos.web3j.abi.datatypes.generated.Int256;
 
+import com.webank.weid.contract.WeIdContract;
+
+
 public class TestMockException {
 
+    /**
+     * mockTimeoutFuture.
+     */
     public static MockUp<Future<?>> mockTimeoutFuture() {
         return new MockUp<Future<?>>() {
             @Mock
@@ -26,6 +30,9 @@ public class TestMockException {
         };
     }
 
+    /**
+     * mockInterruptedFuture.
+     */
     public static MockUp<Future<?>> mockInterruptedFuture() {
         return new MockUp<Future<?>>() {
             @Mock
@@ -44,6 +51,9 @@ public class TestMockException {
         };
     }
 
+    /**
+     * mockReturnNullFuture.
+     */
     public static MockUp<Future<?>> mockReturnNullFuture() {
         return new MockUp<Future<?>>() {
             @Mock
@@ -53,6 +63,9 @@ public class TestMockException {
         };
     }
 
+    /**
+     * mockSetAttribute.
+     */
     public static MockUp<WeIdContract> mockSetAttribute(MockUp<Future<?>> mockFuture) {
         return new MockUp<WeIdContract>() {
             @Mock

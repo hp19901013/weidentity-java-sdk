@@ -21,6 +21,12 @@ package com.webank.weid.testcase.performance;
 
 import java.io.IOException;
 
+import org.junit.Assert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.Ignore;
+import org.testng.annotations.Test;
+
 import com.webank.weid.BaseTest;
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.WeIdDocument;
@@ -29,22 +35,15 @@ import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 
-import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
-
 
 /**
  * performance testing.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
-@Test(groups = "all" )
+@Test(groups = "all")
 public class TestWeIdPerformance extends BaseTest {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestWeIdPerformance.class);
 
     @Test
@@ -68,7 +67,7 @@ public class TestWeIdPerformance extends BaseTest {
 
         long gasTime = System.currentTimeMillis() - startTime;
         logger.info("use time:" + gasTime + "ms");
-        
+
         Assert.assertNotNull(result);
     }
 

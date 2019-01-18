@@ -25,12 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.webank.weid.util.DateUtils;
-
 import org.bcos.web3j.abi.datatypes.generated.Int256;
 import org.junit.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import com.webank.weid.util.DateUtils;
 
 /**
  * test DateUtils.

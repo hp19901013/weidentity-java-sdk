@@ -20,11 +20,9 @@
 package com.webank.weid.service.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -83,6 +81,7 @@ import com.webank.weid.service.BaseService;
 import com.webank.weid.util.DataTypetUtils;
 import com.webank.weid.util.DateUtils;
 import com.webank.weid.util.WeIdUtils;
+
 
 /**
  * Service implementations for operations on WeIdentity DID.
@@ -672,8 +671,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         return !(null == setPublicKeyArgs
             || null == setPublicKeyArgs.getType()
             || null == setPublicKeyArgs.getUserWeIdPrivateKey()
-            || null == setPublicKeyArgs.getPublicKey()
-        );
+            || null == setPublicKeyArgs.getPublicKey());
     }
 
     /**
@@ -739,8 +737,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         return !(null == setServiceArgs
             || null == setServiceArgs.getType()
             || null == setServiceArgs.getUserWeIdPrivateKey()
-            || null == setServiceArgs.getServiceEndpoint()
-        );
+            || null == setServiceArgs.getServiceEndpoint());
     }
 
     /**
@@ -820,8 +817,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         return !(null == setAuthenticationArgs
             || null == setAuthenticationArgs.getType()
             || null == setAuthenticationArgs.getUserWeIdPrivateKey()
-            || StringUtils.isEmpty(setAuthenticationArgs.getPublicKey())
-        );
+            || StringUtils.isEmpty(setAuthenticationArgs.getPublicKey()));
     }
 
     /**

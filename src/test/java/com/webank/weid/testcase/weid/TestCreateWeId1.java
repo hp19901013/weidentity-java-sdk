@@ -23,15 +23,6 @@ import java.security.NoSuchProviderException;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.WeIdContract;
-import com.webank.weid.contract.WeIdContract.WeIdAttributeChangedEventResponse;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.TestMockException;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.bcos.web3j.crypto.ECKeyPair;
@@ -41,6 +32,15 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.WeIdContract;
+import com.webank.weid.contract.WeIdContract.WeIdAttributeChangedEventResponse;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * non parametric createWeId method for testing WeIdService.

@@ -21,26 +21,24 @@ package com.webank.weid.testcase.util;
 
 import java.math.BigInteger;
 
-import org.testng.annotations.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
 
 import com.webank.weid.utils.TestBaseUtil;
 
 /**
- * the role of this class is to handle the private key required 
- * in the testing process.
- * 
- * @author v_wbgyang
+ * the role of this class is to handle the private key required in the testing process.
  *
+ * @author v_wbgyang
  */
 @Test(groups = "all")
 public class TestBuildPrivateKey {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(TestBuildPrivateKey.class);
 
-    /** 
-     * extract the private key in org1.txt and transform it into 16 binary system 
+    /**
+     * extract the private key in org1.txt and transform it into 16 binary system
      */
     @Test
     public void testBuildPrivateKey() {

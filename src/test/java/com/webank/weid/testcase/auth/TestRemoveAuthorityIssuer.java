@@ -19,22 +19,9 @@
 
 package com.webank.weid.testcase.auth;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
-
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.AuthorityIssuerController;
-import com.webank.weid.contract.AuthorityIssuerController.AuthorityIssuerRetLogEventResponse;
-import com.webank.weid.protocol.request.RegisterAuthorityIssuerArgs;
-import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
-import com.webank.weid.protocol.response.CreateWeIdDataResult;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.TestMockException;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -44,6 +31,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.AuthorityIssuerController;
+import com.webank.weid.contract.AuthorityIssuerController.AuthorityIssuerRetLogEventResponse;
+import com.webank.weid.protocol.request.RegisterAuthorityIssuerArgs;
+import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * removeAuthorityIssuer method for testing AuthorityIssuerService.
@@ -290,7 +289,6 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
      */
     @Test
     public void testRemoveAuthorityIssuerCase12() {
-        long l = System.currentTimeMillis();
         CreateWeIdDataResult createWeId = super.createWeId();
 
         RegisterAuthorityIssuerArgs registerAuthorityIssuerArgs =
@@ -309,7 +307,6 @@ public class TestRemoveAuthorityIssuer extends TestBaseServcie {
             authorityIssuerService.removeAuthorityIssuer(removeAuthorityIssuerArgs);
         logger.info("removeAuthorityIssuer result:");
         BeanUtil.print(response);
-        System.out.println(System.currentTimeMillis() - l);
         Assert.assertEquals(ErrorCode.AUTHORITY_ISSUER_CONTRACT_ERROR_NO_PERMISSION.getCode(),
             response.getErrorCode().intValue());
         Assert.assertFalse(response.getResult());

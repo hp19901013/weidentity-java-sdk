@@ -19,13 +19,13 @@
 
 package com.webank.weid.testcase.util;
 
-import com.webank.weid.protocol.base.WeIdPrivateKey;
-import com.webank.weid.util.WeIdUtils;
-
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.protocol.base.WeIdPrivateKey;
+import com.webank.weid.util.WeIdUtils;
 
 /**
  * Test WeIdUtils.

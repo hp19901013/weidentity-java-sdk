@@ -19,8 +19,6 @@
 
 package com.webank.weid.testcase.util;
 
-import com.webank.weid.util.DataTypetUtils;
-
 import org.bcos.web3j.abi.datatypes.DynamicArray;
 import org.bcos.web3j.abi.datatypes.DynamicBytes;
 import org.bcos.web3j.abi.datatypes.StaticArray;
@@ -32,6 +30,8 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.util.DataTypetUtils;
 
 /**
  * test DataTypetUtils.

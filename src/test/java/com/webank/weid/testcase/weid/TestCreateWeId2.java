@@ -22,19 +22,6 @@ package com.webank.weid.testcase.weid;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.WeIdContract;
-import com.webank.weid.contract.WeIdContract.WeIdAttributeChangedEventResponse;
-import com.webank.weid.exception.PrivateKeyIllegalException;
-import com.webank.weid.protocol.request.CreateWeIdArgs;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.service.BaseService;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.TestBaseUtil;
-import com.webank.weid.utils.BeanUtil;
-import com.webank.weid.utils.PasswordKey;
-import com.webank.weid.utils.TestMockException;
-
 import mockit.Mock;
 import mockit.MockUp;
 import org.apache.commons.lang3.StringUtils;
@@ -44,6 +31,19 @@ import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.WeIdContract;
+import com.webank.weid.contract.WeIdContract.WeIdAttributeChangedEventResponse;
+import com.webank.weid.exception.PrivateKeyIllegalException;
+import com.webank.weid.protocol.request.CreateWeIdArgs;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.service.BaseService;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
+import com.webank.weid.utils.PasswordKey;
+import com.webank.weid.utils.TestBaseUtil;
+import com.webank.weid.utils.TestMockException;
 
 /**
  * a parametric createWeId method for testing WeIdService.

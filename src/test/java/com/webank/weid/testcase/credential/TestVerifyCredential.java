@@ -19,6 +19,11 @@
 
 package com.webank.weid.testcase.credential;
 
+import mockit.Mock;
+import mockit.MockUp;
+import org.junit.Assert;
+import org.testng.annotations.Test;
+
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
@@ -30,14 +35,9 @@ import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.service.impl.CredentialServiceImpl;
 import com.webank.weid.service.impl.WeIdServiceImpl;
 import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.PasswordKey;
 import com.webank.weid.utils.TestBaseUtil;
 import com.webank.weid.utils.TestData;
-import com.webank.weid.utils.PasswordKey;
-
-import mockit.Mock;
-import mockit.MockUp;
-import org.junit.Assert;
-import org.testng.annotations.Test;
 
 /**
  * verifyCredential method for testing CredentialService.
@@ -703,6 +703,11 @@ public class TestVerifyCredential extends TestBaseServcie {
         Assert.assertEquals(false, response.getResult());
     }
 
+    /**
+     * copy credential.
+     * @param credential credential.s
+     * @return credential
+     */
     public Credential copyCredential(Credential credential) {
         Credential copyCredential = new Credential();
         copyCredential.setId(credential.getId());

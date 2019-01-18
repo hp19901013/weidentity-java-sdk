@@ -26,8 +26,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SignatureException;
 
-import com.webank.weid.util.SignatureUtils;
-
 import org.bcos.web3j.crypto.ECKeyPair;
 import org.bcos.web3j.crypto.Sign;
 import org.junit.Assert;
@@ -35,11 +33,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
+import com.webank.weid.util.SignatureUtils;
+
 /**
  * Test SignatureUtils.
- * 
- * @author v_wbjnzhang
  *
+ * @author v_wbjnzhang
  */
 @Test(groups = "all")
 public class TestSignatureUtils {
@@ -48,9 +47,9 @@ public class TestSignatureUtils {
 
     @Test
     public void testSignatureUtils()
-        throws InvalidAlgorithmParameterException, 
+        throws InvalidAlgorithmParameterException,
         NoSuchAlgorithmException,
-        NoSuchProviderException, 
+        NoSuchProviderException,
         SignatureException,
         UnsupportedEncodingException {
 

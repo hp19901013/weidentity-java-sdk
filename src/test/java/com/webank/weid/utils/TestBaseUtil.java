@@ -32,6 +32,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.bcos.web3j.crypto.ECKeyPair;
+import org.bcos.web3j.crypto.Keys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.webank.weid.protocol.base.AuthorityIssuer;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
@@ -48,12 +54,6 @@ import com.webank.weid.protocol.request.SetServiceArgs;
 import com.webank.weid.protocol.request.UpdateCptArgs;
 import com.webank.weid.protocol.request.VerifyCredentialArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
-
-import org.apache.commons.lang3.StringUtils;
-import org.bcos.web3j.crypto.ECKeyPair;
-import org.bcos.web3j.crypto.Keys;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * testing basic entity object building classes.

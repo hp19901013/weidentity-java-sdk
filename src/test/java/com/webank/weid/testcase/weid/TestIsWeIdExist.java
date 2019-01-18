@@ -19,15 +19,8 @@
 
 package com.webank.weid.testcase.weid;
 
-
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
-
-import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.contract.WeIdContract;
-import com.webank.weid.protocol.response.ResponseData;
-import com.webank.weid.testcase.TestBaseServcie;
-import com.webank.weid.utils.BeanUtil;
 
 import mockit.Mock;
 import mockit.MockUp;
@@ -37,6 +30,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.webank.weid.constant.ErrorCode;
+import com.webank.weid.contract.WeIdContract;
+import com.webank.weid.protocol.response.ResponseData;
+import com.webank.weid.testcase.TestBaseServcie;
+import com.webank.weid.utils.BeanUtil;
 
 /**
  * isWeIdExist method for testing WeIdService.

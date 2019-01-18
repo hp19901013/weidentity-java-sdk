@@ -38,7 +38,7 @@ function gradle_build_sdk()
     if [ -d ${java_source_code_dir}/dist ]; then
         rm -rf ${java_source_code_dir}/dist
     fi
-    gradle clean build -x test
+    gradle build -x assemble -x check
     echo "compile java code done."
 }
 
@@ -55,15 +55,25 @@ function deploy_contract()
         CLASSPATH=${CLASSPATH}:${jar_file}
     done
 
-    java -cp "$CLASSPATH" com.webank.weid.contract.deploy.DeployContract
+    nohup java -cp "$CLASSPATH" com.webank.weid.contract.deploy.DeployContract &
     echo "contract deployment done."
 }
+function checkstyle_spotbugs_jacocoTestReport(){
+    sh ${java_source_code_dir}/gradlew jacocoTestReport checkstyle spotbugsMain spotbugsTest
+}
 
+function isDeployFinish(){
+    while [[ $( ps -ef | grep 'com.webank.weid.contract.deploy.DeployContract' | wc -l ) > 0 ]];
+    do
+        sleep 1
+    done
+}
 function main()
 {
     gradle_build_sdk
     deploy_contract
+    checkstyle_spotbugs_jacocoTestReport
+    isDeployFinish
     modify_config
 }
-
 main

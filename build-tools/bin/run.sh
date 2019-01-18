@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 current_path=$(pwd)
 source_code_dir=$current_path"/../.."
@@ -10,7 +11,7 @@ if [ -d dist/ ];then
     rm -rf dist/
 fi
 
-gradle clean build -x test
+gradle clean build -x check
 
 cp -r ./build-tools/* dist/
 

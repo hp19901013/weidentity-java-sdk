@@ -16,11 +16,12 @@ cache:
 
 before_install:
   - gradle wrapper
+  - ./gradlew clean
 
 script: 
   - chmod +x ci/script/build-ci.sh
   - ci/script/build-ci.sh
-  - travis_wait 30 ./gradlew check
+  - travis_wait 30 ./gradlew test
   - ./gradlew jacocoTestReport
 
 after_success:

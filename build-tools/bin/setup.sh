@@ -1,9 +1,9 @@
 #!/bin/bash
+set -e
 
 SOLC=$(which fisco-solc)
 WEB3J="../bin/web3sdk.sh"
 java_source_code_dir=$2
-temp_file=$(date +%s)".temp"
 config_file=${java_source_code_dir}/dist/bin/run.config
 app_xml_config_dir=${java_source_code_dir}/dist/conf/
 app_xml_config_tpl=${java_source_code_dir}/src/main/resources/applicationContext.xml.tpl
@@ -53,7 +53,7 @@ function compile_contract()
     for itemfile in ${files}
     do
         local item=$(basename ${itemfile} ".sol")
-        ${SOLC} --abi --bin -o ${output_dir} ${itemfile}
+	${SOLC} --abi --bin --overwrite -o ${output_dir} ${itemfile}
         echo "${output_dir}/${item}.bin, ${output_dir}, ${package} "
         ${WEB3J} solidity generate  "${output_dir}/${item}.bin" "${output_dir}/${item}.abi" -o ${output_dir} -p ${package} 
     done
@@ -144,8 +144,7 @@ function deploy_contract()
 	CLASSPATH=${CLASSPATH}:${jar_file}
 	done
 
-    java -cp "$CLASSPATH" com.webank.weid.contract.deploy.DeployContract ${temp_file}
-    dos2unix ${temp_file}
+    java -cp "$CLASSPATH" com.webank.weid.contract.deploy.DeployContract
     echo "contract deployment done."
 }
 

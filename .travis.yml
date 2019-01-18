@@ -16,7 +16,6 @@ cache:
 
 before_install:
   - gradle wrapper
-  - ./gradlew clean
 
 script: 
   - chmod +x ci/script/build-ci.sh

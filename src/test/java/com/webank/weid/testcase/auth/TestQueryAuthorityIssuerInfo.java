@@ -57,10 +57,9 @@ public class TestQueryAuthorityIssuerInfo extends TestBaseServcie {
 
     @Test(groups = "ignore")
     public synchronized void testInit() {
-
+        super.testInit();
         if (null == createWeId) {
             createWeId = super.registerAuthorityIssuer();
-            super.testInit();
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="suiteName" parallel="false">
-    <test name="test1" parallel="methods" thread-count="100">
+    <test name="test1" parallel="methods" thread-count="50">
         <groups>
             <run>
                 <include name="all"/>

@@ -1,19 +1,6 @@
 sudo: false
 dist: trusty
 
-# blocklist
-branches:
-  except:
-  - /^release.*/
-  - /^feature.*/
-
-# safelist
-branches:
-  only:
-  - master
-  - develop
-  - /^v\d+\.\d+\.\d+$/
-
 language: java
 jdk:
   - oraclejdk8

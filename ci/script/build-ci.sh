@@ -1,9 +1,10 @@
 #!/bin/bash
+set -e
+
 java_source_code_dir=$(pwd)
 
 app_xml_config=${java_source_code_dir}/src/main/resources/applicationContext.xml
 app_xml_config_tpl=${java_source_code_dir}/src/main/resources/applicationContext.xml.tpl
-
 
 function modify_config()
 {
@@ -59,7 +60,7 @@ function deploy_contract()
     echo "contract deployment done."
 }
 function checkstyle_spotbugs_jacocoTestReport(){
-    sh ${java_source_code_dir}/gradlew jacocoTestReport checkstyle spotbugsMain spotbugsTest
+    sh ${java_source_code_dir}/gradlew jacocoTestReport checkstyleMain checkstyleTest spotbugsMain spotbugsTest
 }
 
 function isDeployFinish(){

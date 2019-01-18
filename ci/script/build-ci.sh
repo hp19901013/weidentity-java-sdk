@@ -64,8 +64,7 @@ function checkstyle_spotbugs_jacocoTestReport(){
 }
 
 function isDeployFinish(){
-    while [[ $( ps -ef | grep 'com.webank.weid.contract.deploy.DeployContract' | wc -l ) > 1 ]];
-    echo $( ps -ef | grep 'com.webank.weid.contract.deploy.DeployContract' | wc -l )
+    while [[ $( ps -ef | grep 'com.webank.weid.contract.deploy.DeployContract' | wc -l ) -gt 1 ]];
     do
         echo $( ps -ef | grep 'com.webank.weid.contract.deploy.DeployContract' | wc -l )
         sleep 1

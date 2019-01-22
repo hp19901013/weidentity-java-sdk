@@ -21,6 +21,7 @@ package com.webank.weid.util;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -74,7 +75,7 @@ public class SignatureUtils {
      */
     public static Sign.SignatureData signMessage(String message, ECKeyPair keyPair)
         throws UnsupportedEncodingException {
-        return Sign.signMessage(HashUtils.sha3(message.getBytes(WeIdConstant.UTF_8)), keyPair);
+        return Sign.signMessage(HashUtils.sha3(message.getBytes(StandardCharsets.UTF_8)), keyPair);
     }
 
     /**
@@ -93,7 +94,7 @@ public class SignatureUtils {
 
         BigInteger privateKey = new BigInteger(privateKeyString);
         ECKeyPair keyPair = new ECKeyPair(privateKey, publicKeyFromPrivate(privateKey));
-        return Sign.signMessage(HashUtils.sha3(message.getBytes(WeIdConstant.UTF_8)), keyPair);
+        return Sign.signMessage(HashUtils.sha3(message.getBytes(StandardCharsets.UTF_8)), keyPair);
     }
 
     /**
@@ -110,7 +111,7 @@ public class SignatureUtils {
         Sign.SignatureData signatureData)
         throws SignatureException, UnsupportedEncodingException {
 
-        return Sign.signedMessageToKey(HashUtils.sha3(message.getBytes(WeIdConstant.UTF_8)),
+        return Sign.signedMessageToKey(HashUtils.sha3(message.getBytes(StandardCharsets.UTF_8)),
                 signatureData);
     }
 

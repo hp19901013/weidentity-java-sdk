@@ -53,7 +53,7 @@ public class TestIsAuthorityIssuer extends TestBaseServcie {
     @Override
     public void testInit() {
 
-        if (null == createWeId) {
+        if (createWeId == null) {
             createWeId = super.registerAuthorityIssuer();
             super.testInit();
         }

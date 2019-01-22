@@ -156,7 +156,7 @@ public enum ErrorCode {
      * The credential issuer does not have a valid WeIdentity DID document.
      */
     CREDENTIAL_WEID_DOCUMENT_ILLEGAL(100417, "weid document illegal"),
-    
+
     /**
      * The credential issuer is invalid.
      */
@@ -373,5 +373,19 @@ public enum ErrorCode {
      */
     protected void setCodeDesc(String codeDesc) {
         this.codeDesc = codeDesc;
+    }
+
+    /**
+     * get ErrorType By errcode.
+     *
+     * @param errorCode the ErrorCode
+     */
+    public static ErrorCode getTypeByErrorCode(int errorCode) {
+        for (ErrorCode type : ErrorCode.values()) {
+            if (type.getCode() == errorCode) {
+                return type;
+            }
+        }
+        return null;
     }
 }

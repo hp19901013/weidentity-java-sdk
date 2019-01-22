@@ -43,6 +43,15 @@ public class ResponseData<T> {
     }
 
     /**
+     * Instantiates a new response success data.
+     *
+     * @param result the result
+     */
+    public ResponseData(T result) {
+        this.result = result;
+    }
+
+    /**
      * Instantiates a new response data.
      *
      * @param result the result
@@ -61,9 +70,25 @@ public class ResponseData<T> {
      * @param errorCode the return code
      * @param errorMessage the return message
      */
-    public ResponseData(T result, Integer errorCode, String errorMessage) {
+    public ResponseData(T result, ErrorCode errorCode, String errorMessage) {
         this.result = result;
-        this.errorCode = errorCode;
+        this.errorCode = errorCode.getCode();
         this.errorMessage = errorMessage;
     }
+
+    /**
+     * set a Integer type code.
+     */
+    public void setErrorCode(Integer errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    /**
+     * set a ErrorCode type errorCode.
+     */
+    public void setErrorCode(ErrorCode errorCode) {
+        this.errorCode = errorCode.getCode();
+        this.errorMessage = errorCode.getCodeDesc();
+    }
+
 }

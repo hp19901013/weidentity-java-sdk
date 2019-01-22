@@ -20,6 +20,7 @@
 package com.webank.weid.service.impl;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -108,8 +109,9 @@ public class AuthorityIssuerServiceImpl extends BaseService implements Authority
 
         ResponseData<Boolean> innerResponseData = checkRegisterAuthorityIssuerArgs(args);
         if (!innerResponseData.getResult()) {
-            return new ResponseData<>(
-                false, innerResponseData.getErrorCode(), innerResponseData.getErrorMessage());
+            return new ResponseData<>(false,
+                ErrorCode.getTypeByErrorCode(innerResponseData.getErrorCode()),
+                innerResponseData.getErrorMessage());
         }
 
         AuthorityIssuer authorityIssuer = args.getAuthorityIssuer();
@@ -122,7 +124,7 @@ public class AuthorityIssuerServiceImpl extends BaseService implements Authority
         try {
             DynamicBytes accValue = new DynamicBytes(authorityIssuer
                 .getAccValue()
-                .getBytes(WeIdConstant.UTF_8));
+                .getBytes(StandardCharsets.UTF_8));
             reloadContract(args.getWeIdPrivateKey().getPrivateKey());
             Future<TransactionReceipt> future = authorityIssuerController.addAuthorityIssuer(
                 addr,
@@ -174,7 +176,7 @@ public class AuthorityIssuerServiceImpl extends BaseService implements Authority
         if (!innerResponseData.getResult()) {
             return new ResponseData<>(
                 false,
-                innerResponseData.getErrorCode(),
+                ErrorCode.getTypeByErrorCode(innerResponseData.getErrorCode()),
                 innerResponseData.getErrorMessage()
             );
         }
@@ -320,7 +322,7 @@ public class AuthorityIssuerServiceImpl extends BaseService implements Authority
             logger.error("register authority issuer format error!");
             return new ResponseData<>(
                 false,
-                checkResponse.getErrorCode(),
+                ErrorCode.getTypeByErrorCode(checkResponse.getErrorCode()),
                 checkResponse.getErrorMessage()
             );
         }

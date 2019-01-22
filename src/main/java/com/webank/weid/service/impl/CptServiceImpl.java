@@ -20,6 +20,7 @@
 package com.webank.weid.service.impl;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -249,7 +250,7 @@ public class CptServiceImpl extends BaseService implements CptService {
                 new String(
                     SignatureUtils.base64Encode(
                         SignatureUtils.simpleSignatureSerialization(signatureData)),
-                    WeIdConstant.UTF_8);
+                    StandardCharsets.UTF_8);
             cpt.setCptSignature(cptSignature);
 
             ResponseData<Cpt> responseData = new ResponseData<Cpt>();
@@ -497,7 +498,7 @@ public class CptServiceImpl extends BaseService implements CptService {
         }
 
         WeIdPrivateKey weIdPrivateKey = weIdAuthentication.getWeIdPrivateKey();
-        if (null == weIdPrivateKey
+        if (weIdPrivateKey == null
             || StringUtils.isEmpty(weIdPrivateKey.getPrivateKey())) {
             logger.error(
                 "Input cpt publisher private key : {} is in valid.",

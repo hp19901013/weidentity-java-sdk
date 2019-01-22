@@ -383,8 +383,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
             Sign.SignatureData signatureData =
                 SignatureUtils.simpleSignatureDeserialization(
                     SignatureUtils.base64Decode(
-                        credential.getSignature().getBytes(WeIdConstant.UTF_8))
-                );
+                        credential.getSignature().getBytes(StandardCharsets.UTF_8)));
 
             if (StringUtils.isEmpty(publicKey)) {
                 // Fetch public key from chain

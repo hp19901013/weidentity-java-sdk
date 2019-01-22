@@ -170,7 +170,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         }
 
         String identity = res.identity.toString();
-        if (null == result.getUpdated()) {
+        if (result.getUpdated() == null) {
             long timeStamp = res.updated.getValue().longValue();
             result.setUpdated(timeStamp);
         }
@@ -437,7 +437,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
     @Override
     public ResponseData<String> createWeId(CreateWeIdArgs createWeIdArgs) {
 
-        if (null == createWeIdArgs) {
+        if (createWeIdArgs == null) {
             logger.error("[createWeId]: input parameter createWeIdArgs is null.");
             return new ResponseData<>(StringUtils.EMPTY, ErrorCode.ILLEGAL_INPUT);
         }
@@ -454,7 +454,7 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             }
             String weId = WeIdUtils.convertPublicKeyToWeId(publicKey);
             ResponseData<Boolean> isWeIdExistResp = this.isWeIdExist(weId);
-            if (null == isWeIdExistResp.getResult() || isWeIdExistResp.getResult()) {
+            if (isWeIdExistResp.getResult() == null || isWeIdExistResp.getResult()) {
                 return new ResponseData<>(StringUtils.EMPTY, ErrorCode.WEID_ALREADY_EXIST);
             }
             responseData.setResult(weId);
@@ -561,9 +561,10 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
         ResponseData<WeIdDocument> responseData = this.getWeIdDocument(weId);
         WeIdDocument result = responseData.getResult();
 
-        if (null == result) {
+        if (result == null) {
             return new ResponseData<>(
-                StringUtils.EMPTY, responseData.getErrorCode(), responseData.getErrorMessage());
+                StringUtils.EMPTY, ErrorCode.getTypeByErrorCode(responseData.getErrorCode()),
+                responseData.getErrorMessage());
         }
         ObjectMapper mapper = new ObjectMapper();
         String weIdDocument;
@@ -571,7 +572,8 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
             weIdDocument = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(result);
         } catch (Exception e) {
             return new ResponseData<>(
-                StringUtils.EMPTY, responseData.getErrorCode(), responseData.getErrorMessage());
+                StringUtils.EMPTY, ErrorCode.getTypeByErrorCode(responseData.getErrorCode()),
+                responseData.getErrorMessage());
         }
         weIdDocument =
             new StringBuffer()
@@ -665,10 +667,10 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
 
     private boolean verifySetPublicKeyArgs(SetPublicKeyArgs setPublicKeyArgs) {
 
-        return !(null == setPublicKeyArgs
-            || null == setPublicKeyArgs.getType()
-            || null == setPublicKeyArgs.getUserWeIdPrivateKey()
-            || null == setPublicKeyArgs.getPublicKey());
+        return !(setPublicKeyArgs == null
+            || setPublicKeyArgs.getType() == null
+            || setPublicKeyArgs.getUserWeIdPrivateKey() == null
+            || setPublicKeyArgs.getPublicKey() == null);
     }
 
     /**
@@ -731,10 +733,10 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
 
     private boolean verifySetServiceArgs(SetServiceArgs setServiceArgs) {
 
-        return !(null == setServiceArgs
-            || null == setServiceArgs.getType()
-            || null == setServiceArgs.getUserWeIdPrivateKey()
-            || null == setServiceArgs.getServiceEndpoint());
+        return !(setServiceArgs == null
+            || setServiceArgs.getType() == null
+            || setServiceArgs.getUserWeIdPrivateKey() == null
+            || setServiceArgs.getServiceEndpoint() == null);
     }
 
     /**
@@ -811,9 +813,9 @@ public class WeIdServiceImpl extends BaseService implements WeIdService {
 
     private boolean verifySetAuthenticationArgs(SetAuthenticationArgs setAuthenticationArgs) {
 
-        return !(null == setAuthenticationArgs
-            || null == setAuthenticationArgs.getType()
-            || null == setAuthenticationArgs.getUserWeIdPrivateKey()
+        return !(setAuthenticationArgs == null
+            || setAuthenticationArgs.getType() == null
+            || setAuthenticationArgs.getUserWeIdPrivateKey() == null
             || StringUtils.isEmpty(setAuthenticationArgs.getPublicKey()));
     }
 

@@ -21,6 +21,7 @@ package com.webank.weid.util;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,13 +70,8 @@ public final class DataTypetUtils {
     public static Bytes32 stringToBytes32(String string) {
 
         byte[] byteValueLen32 = new byte[32];
-        try {
-            byte[] byteValue = string.getBytes(WeIdConstant.UTF_8);
-            System.arraycopy(byteValue, 0, byteValueLen32, 0, byteValue.length);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("stringToBytes32 is exception", e);
-            throw new DataTypeCastException(e.getCause());
-        }
+        byte[] byteValue = string.getBytes(StandardCharsets.UTF_8);
+        System.arraycopy(byteValue, 0, byteValueLen32, 0, byteValue.length);
         return new Bytes32(byteValueLen32);
     }
 
@@ -104,12 +100,7 @@ public final class DataTypetUtils {
     public static String bytes32ToString(Bytes32 bytes32) {
 
         String str = null;
-        try {
-            str = new String(bytes32.getValue(), WeIdConstant.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("bytes32ToString is exception", e);
-            throw new DataTypeCastException(e.getCause());
-        }
+        str = new String(bytes32.getValue(), StandardCharsets.UTF_8);
         return str.trim();
     }
 
@@ -123,12 +114,7 @@ public final class DataTypetUtils {
 
         byte[] strs = bytes32.getValue();
         String str = null;
-        try {
-            str = new String(strs, WeIdConstant.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("bytes32ToStringWithoutTrim is exception", e);
-            throw new DataTypeCastException(e.getCause());
-        }
+        str = new String(strs, StandardCharsets.UTF_8);
         return str;
     }
 
@@ -161,12 +147,7 @@ public final class DataTypetUtils {
     public static DynamicBytes stringToDynamicBytes(String input) {
 
         DynamicBytes dynamicBytes = null;
-        try {
-            dynamicBytes = new DynamicBytes(input.getBytes(WeIdConstant.UTF_8));
-        } catch (UnsupportedEncodingException e) {
-            logger.error("stringToDynamicBytes is exception", e);
-            throw new DataTypeCastException(e.getCause());
-        }
+        dynamicBytes = new DynamicBytes(input.getBytes(StandardCharsets.UTF_8));
         return dynamicBytes;
     }
 
@@ -179,12 +160,7 @@ public final class DataTypetUtils {
     public static String dynamicBytesToString(DynamicBytes input) {
 
         String str = null;
-        try {
-            str = new String(input.getValue(), WeIdConstant.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("dynamicBytesToString is exception", e);
-            throw new DataTypeCastException(e.getCause());
-        }
+        str = new String(input.getValue(), StandardCharsets.UTF_8);
         return str;
     }
 

@@ -21,6 +21,7 @@ package com.webank.weid.service.impl;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +89,8 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
             if (!innerResponse.getResult()) {
                 logger.error("Generate Credential input format error!");
                 return new ResponseData<>(
-                    null, innerResponse.getErrorCode(), innerResponse.getErrorMessage());
+                    null, ErrorCode.getTypeByErrorCode(innerResponse.getErrorCode()),
+                    innerResponse.getErrorMessage());
             }
 
             Credential result = new Credential();
@@ -115,7 +117,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
                 new String(
                     SignatureUtils
                         .base64Encode(SignatureUtils.simpleSignatureSerialization(sigData)),
-                    WeIdConstant.UTF_8));
+                    StandardCharsets.UTF_8));
 
             ResponseData<CredentialWrapper> responseData = new ResponseData<CredentialWrapper>();
             credentialWrapper.setCredential(result);
@@ -162,7 +164,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
      */
     @Override
     public ResponseData<Boolean> verifyCredentialWithSpecifiedPubKey(
-        CredentialWrapper credentialWrapper, 
+        CredentialWrapper credentialWrapper,
         WeIdPublicKey weIdPublicKey) {
         if (credentialWrapper == null) {
             return new ResponseData<Boolean>(false, ErrorCode.ILLEGAL_INPUT);
@@ -182,7 +184,8 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
             if (!innerResponse.getResult()) {
                 logger.error("Credential input format error!");
                 return new ResponseData<>(
-                    false, innerResponse.getErrorCode(), innerResponse.getErrorMessage());
+                    false, ErrorCode.getTypeByErrorCode(innerResponse.getErrorCode()),
+                    innerResponse.getErrorMessage());
             }
 
             if (!WeIdUtils.isWeIdValid(credential.getIssuer())) {
@@ -344,7 +347,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
                 logger.error(ErrorCode.CPT_JSON_SCHEMA_INVALID.getCodeDesc());
                 return new ResponseData<>(false, ErrorCode.CPT_JSON_SCHEMA_INVALID);
             }
-            if (!JsonSchemaValidatorUtils.validateJsonVersusSchema(claimStr, cptJsonSchema)) {
+            if (!JsonSchemaValidatorUtils.isValidateJsonVersusSchema(claimStr, cptJsonSchema)) {
                 logger.error(ErrorCode.CREDENTIAL_CLAIM_DATA_ILLEGAL.getCodeDesc());
                 return new ResponseData<>(false, ErrorCode.CREDENTIAL_CLAIM_DATA_ILLEGAL);
             }
@@ -473,7 +476,7 @@ public class CredentialServiceImpl extends BaseService implements CredentialServ
         if (!checkResp.getResult()) {
             return new ResponseData<>(
                 credentialResult,
-                checkResp.getErrorCode(),
+                ErrorCode.getTypeByErrorCode(checkResp.getErrorCode()),
                 checkResp.getErrorMessage()
             );
         }

@@ -45,7 +45,7 @@ import com.webank.weid.util.SignatureUtils;
  *
  * @author v_wbgyang
  */
-public class TestVerifyCredential extends TestBaseServcie {
+public class TestVerifyCredential2 extends TestBaseServcie {
 
     protected PasswordKey passwordKey = null;
 

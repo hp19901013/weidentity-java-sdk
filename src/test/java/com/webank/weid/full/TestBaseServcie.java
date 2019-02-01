@@ -40,6 +40,7 @@ import com.webank.weid.common.BeanUtil;
 import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.contract.WeIdContract;
 import com.webank.weid.protocol.base.CptBaseInfo;
+import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.CredentialWrapper;
 import com.webank.weid.protocol.base.WeIdPrivateKey;
 import com.webank.weid.protocol.base.WeIdPublicKey;
@@ -177,8 +178,7 @@ public abstract class TestBaseServcie extends BaseTest {
      * @param credentialWrapper credentialWrapper
      */
     protected ResponseData<Boolean> verifyCredential(CredentialWrapper credentialWrapper) {
-
-        ResponseData<Boolean> response = credentialService.verify(credentialWrapper);
+        ResponseData<Boolean> response = credentialService.verify(credentialWrapper.getCredential());
         logger.info("verifyCredentialWithSpecifiedPubKey result:");
         BeanUtil.print(response);
 

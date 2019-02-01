@@ -32,8 +32,6 @@ import org.bcos.web3j.crypto.Keys;
 import org.bcos.web3j.crypto.Sign;
 import org.bouncycastle.util.encoders.Base64;
 
-import com.webank.weid.constant.WeIdConstant;
-
 /**
  * The Signature related Utils class. Based on ECDSA Asymmetric Encryption + SHA256 Hash Algorithm.
  *

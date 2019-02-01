@@ -38,7 +38,6 @@ import org.springframework.stereotype.Component;
 
 import com.webank.weid.constant.CredentialFieldDisclosureValue;
 import com.webank.weid.constant.ErrorCode;
-import com.webank.weid.constant.WeIdConstant;
 import com.webank.weid.protocol.base.AuthenticationProperty;
 import com.webank.weid.protocol.base.Cpt;
 import com.webank.weid.protocol.base.Credential;

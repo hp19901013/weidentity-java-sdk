@@ -189,6 +189,21 @@ public abstract class TestBaseServcie extends BaseTest {
     }
 
     /**
+     * verifyCredential.
+     *
+     * @param credential credential
+     * TODO: Map<String, Object> disclosureMap = new HashMap<>(credential.getClaim());  check claim is not null
+     * @return
+     */
+    protected ResponseData<Boolean> verifyCredential(Credential credential) {
+
+        ResponseData<Boolean> response = credentialService.verify(credential);
+        logger.info("verifyCredentialWithSpecifiedPubKey result:");
+        BeanUtil.print(response);
+
+        return response;
+    }
+    /**
      * createCredential.
      * 
      * @param createCredentialArgs createCredentialArgs

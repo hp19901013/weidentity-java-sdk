@@ -97,8 +97,7 @@ public class TestCreateEvidence extends TestBaseServcie {
      */
     @Test
     public void testCreateEvidenceCase03() {
-        ResponseData<String> response = evidenceService
-            .createEvidence(credential, null);
+        ResponseData<String> response = evidenceService.createEvidence(credential, null);
         logger.info("testCreateEvidenceCase3 createEvidence result:");
         BeanUtil.print(response);
         Assert.assertEquals(
@@ -110,7 +109,7 @@ public class TestCreateEvidence extends TestBaseServcie {
     /**
      * case5: privateKey is null.
      */
-    @Test
+    // @Test
     public void testCreateEvidenceCase04() {
         CreateWeIdDataResult tempCreateWeIdResultWithSetAttr = createWeIdResultWithSetAttr;
         WeIdPrivateKey weIdPrivateKey = createWeIdResultWithSetAttr.getUserWeIdPrivateKey();
@@ -130,7 +129,7 @@ public class TestCreateEvidence extends TestBaseServcie {
     /**
      * case6: privateKey is xxxxx.
      */
-    @Test
+    // @Test
     public void testCreateEvidenceCase05() {
         CreateWeIdDataResult tempCreateWeIdResultWithSetAttr = createWeIdResultWithSetAttr;
         WeIdPrivateKey weIdPrivateKey = createWeIdResultWithSetAttr.getUserWeIdPrivateKey();

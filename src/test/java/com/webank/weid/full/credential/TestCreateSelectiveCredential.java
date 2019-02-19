@@ -1,3 +1,21 @@
+/*
+ *       Copyright© (2018-2019) WeBank Co., Ltd.
+ *
+ *       This file is part of weidentity-java-sdk.
+ *
+ *       weidentity-java-sdk is free software: you can redistribute it and/or modify
+ *       it under the terms of the GNU Lesser General Public License as published by
+ *       the Free Software Foundation, either version 3 of the License, or
+ *       (at your option) any later version.
+ *
+ *       weidentity-java-sdk is distributed in the hope that it will be useful,
+ *       but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *       GNU Lesser General Public License for more details.
+ *
+ *       You should have received a copy of the GNU Lesser General Public License
+ *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
+ */
 package com.webank.weid.full.credential;
 
 import java.util.HashMap;
@@ -11,15 +29,21 @@ import org.slf4j.LoggerFactory;
 import com.webank.weid.common.BeanUtil;
 import com.webank.weid.full.TestBaseServcie;
 import com.webank.weid.full.TestBaseUtil;
+import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.CredentialWrapper;
+import com.webank.weid.protocol.request.CptMapArgs;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
+import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.util.JsonUtil;
 
+/**
+ * @author v_wbpenghu
+ */
 public class TestCreateSelectiveCredential extends TestBaseServcie {
 
-    private static final Logger logger = LoggerFactory.getLogger(TestCreateCredential.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestCreateSelectiveCredential.class);
     private static Credential credential = null;
 
     @Override
@@ -210,4 +234,35 @@ public class TestCreateSelectiveCredential extends TestBaseServcie {
         BeanUtil.print(responseData);
     }
 
+    /**
+     * @ todo 两次披露，相同的字段，应该结果不同
+     */
+    @Test
+    public void TestCreateSelectiveCredential11() {
+
+        Credential newCredential = copyCredential(credential);
+        Map<String, Integer> disclosureMap = new HashMap<>();
+        disclosureMap.put("name", 0);
+        disclosureMap.put("gender", 0);
+        disclosureMap.put("age", 0);
+
+        ResponseData<CredentialWrapper> responseData = credentialService
+            .createSelectiveCredential(newCredential, JsonUtil.objToJsonStr(disclosureMap));
+
+        CreateCredentialArgs createCredentialArgs = TestBaseUtil
+            .buildCreateCredentialArgs(createWeIdNew);
+        CptMapArgs cptMapArgs = TestBaseUtil.buildCptArgs(super.createWeIdWithSetAttr());
+        CptBaseInfo cptBaseInfo = this.registerCpt(createWeIdNew, cptMapArgs);
+        createCredentialArgs.setCptId(cptBaseInfo.getCptId());
+
+
+        Credential credential = super.createCredential(createCredentialArgs).getCredential();
+
+        ResponseData<CredentialWrapper> responseData1 = credentialService
+            .createSelectiveCredential(credential, JsonUtil.objToJsonStr(disclosureMap));
+
+        BeanUtil.print(responseData);
+        BeanUtil.print(responseData1);
+        Assert.assertNotEquals(responseData.getResult().getCredential().getClaim().get("name"),responseData1.getResult().getCredential().getClaim().get("name"));
+    }
 }

@@ -48,7 +48,7 @@ import com.webank.weid.util.SignatureUtils;
 /**
  * verifyCredential method for testing CredentialService.
  *
- * @author v_wbgyang
+ * @author v_wbpenghu
  */
 public class TestVerifyCredential1 extends TestBaseServcie {
 
@@ -363,11 +363,11 @@ public class TestVerifyCredential1 extends TestBaseServcie {
     public void testVerifyCredentialCase23() {
         credentialWrapper.setDisclosure(null);
         ResponseData<Boolean> response = super.verifyCredential(credentialWrapper);
-        Assert.assertTrue(response.getResult());
+        Assert.assertFalse(response.getResult());
     }
 
     /**
-     * case:
+     * case: credential is null
      */
     @Test
     public void testVerifyCredentialCase24() {
@@ -376,14 +376,19 @@ public class TestVerifyCredential1 extends TestBaseServcie {
         paramMap.put("name", 0);
         paramMap.put("gender", 0);
         paramMap.put("age", 1);
+        credentialWrapper.setCredential(null);
+        ResponseData<Boolean> response = super.verifyCredential(credentialWrapper);
 
-        ResponseData<CredentialWrapper> selectiveCredential = credentialService
-            .createSelectiveCredential(credentialWrapper.getCredential(),
-                JsonUtil.objToJsonStr(paramMap));
+        Assert.assertFalse(response.getResult());
+    }
 
-        BeanUtil.print(selectiveCredential);
-        ResponseData<Boolean> responseData = super
-            .verifyCredential(selectiveCredential.getResult());
-        Assert.assertTrue(responseData.getResult());
+    /**
+     * case: credentialWrapper is null
+     */
+    @Test
+    public void testVerifyCredentialCase25() {
+        credentialWrapper = null;
+        ResponseData<Boolean> response = super.verifyCredential(credentialWrapper);
+        Assert.assertFalse(response.getResult());
     }
 }

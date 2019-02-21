@@ -1,5 +1,5 @@
 /*
- *       Copyright© (2018) WeBank Co., Ltd.
+ *       Copyright© (2018-2019) WeBank Co., Ltd.
  *
  *       This file is part of weidentity-java-sdk.
  *
@@ -17,28 +17,34 @@
  *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.webank.weid.protocol.request;
+package com.webank.weid.protocol.base;
+
+import java.util.List;
 
 import lombok.Data;
 
-import com.webank.weid.protocol.base.Credential;
-import com.webank.weid.protocol.base.WeIdPublicKey;
-
 /**
- * The Arguments for the following SDK API: verifyCredential().
+ * The base data structure to handle Credential EvidenceInfo info.
  *
- * @author chaoxinhu 2018.10
+ * @author chaoxinhu 2019.1
  */
 @Data
-public class VerifyCredentialArgs {
+public class EvidenceInfo {
 
     /**
-     * Required: The Credential content.
+     * Required: The full Credential hash.
      */
-    private Credential credential;
+    private String credentialHash;
 
     /**
-     * Optional: The public key passed in.
+     * Required: The signers of this Credential.
      */
-    private WeIdPublicKey weIdPublicKey;
+    private List<String> signers;
+
+    /**
+     * Required: The signatures of each signers with the same order.
+     * In JavaBean object, the signatures will be encoded in Base64.
+     * On the blockchain, the signatures will be stored in its r, s, v.
+     */
+    private List<String> signatures;
 }

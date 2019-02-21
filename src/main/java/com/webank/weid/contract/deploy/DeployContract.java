@@ -1,5 +1,5 @@
 /*
- *       Copyright© (2018) WeBank Co., Ltd.
+ *       Copyright© (2018-2019) WeBank Co., Ltd.
  *
  *       This file is part of weidentity-java-sdk.
  *
@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +49,7 @@ import com.webank.weid.contract.CommitteeMemberController;
 import com.webank.weid.contract.CommitteeMemberData;
 import com.webank.weid.contract.CptController;
 import com.webank.weid.contract.CptData;
+import com.webank.weid.contract.EvidenceFactory;
 import com.webank.weid.contract.RoleController;
 import com.webank.weid.contract.WeIdContract;
 
@@ -115,7 +117,7 @@ public class DeployContract {
         ChannelEthereumService channelEthereumService = new ChannelEthereumService();
         channelEthereumService.setChannelService(service);
         web3j = Web3j.build(channelEthereumService);
-        if (null == web3j) {
+        if (web3j == null) {
             logger.error("[BaseService] web3j init failed. ");
             return false;
         }
@@ -125,7 +127,7 @@ public class DeployContract {
         logger.info("begin init credentials");
         credentials = GenCredential.create(toolConf.getPrivKey());
 
-        if (null == credentials) {
+        if (credentials == null) {
             logger.error("[BaseService] credentials init failed. ");
             return false;
         }
@@ -139,7 +141,7 @@ public class DeployContract {
      * @return the web3j instance
      */
     protected static Web3j getWeb3j() {
-        if (null == web3j) {
+        if (web3j == null) {
             loadConfig();
         }
         return web3j;
@@ -149,10 +151,11 @@ public class DeployContract {
         String weIdContractAddress = deployWeIdContract();
         String authorityIssuerDataAddress = deployAuthorityIssuerContracts();
         deployCptContracts(authorityIssuerDataAddress, weIdContractAddress);
+        deployEvidenceContracts();
     }
 
     private static String deployWeIdContract() {
-        if (null == web3j) {
+        if (web3j == null) {
             loadConfig();
         }
         Future<WeIdContract> f =
@@ -177,7 +180,7 @@ public class DeployContract {
 
     private static String deployCptContracts(
         String authorityIssuerDataAddress, String weIdContractAddress) {
-        if (null == web3j) {
+        if (web3j == null) {
             loadConfig();
         }
 
@@ -202,7 +205,8 @@ public class DeployContract {
                     WeIdConstant.GAS_LIMIT,
                     WeIdConstant.INILITIAL_VALUE,
                     new Address(cptDataAddress),
-                    new Address(weIdContractAddress));
+                    new Address(weIdContractAddress)
+                );
             CptController cptController =
                 f2.get(DEFAULT_DEPLOY_CONTRACTS_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
             String cptControllerAddress = cptController.getContractAddress();
@@ -215,7 +219,7 @@ public class DeployContract {
     }
 
     private static String deployAuthorityIssuerContracts() {
-        if (null == web3j) {
+        if (web3j == null) {
             loadConfig();
         }
 
@@ -262,7 +266,8 @@ public class DeployContract {
                 WeIdConstant.GAS_LIMIT,
                 WeIdConstant.INILITIAL_VALUE,
                 new Address(committeeMemberDataAddress),
-                new Address(roleControllerAddress));
+                new Address(roleControllerAddress)
+            );
 
         } catch (Exception e) {
             logger.error("CommitteeMemberData deployment error:", e);
@@ -278,7 +283,8 @@ public class DeployContract {
                 WeIdConstant.GAS_PRICE,
                 WeIdConstant.GAS_LIMIT,
                 WeIdConstant.INILITIAL_VALUE,
-                new Address(roleControllerAddress));
+                new Address(roleControllerAddress)
+            );
 
         } catch (Exception e) {
             logger.error("CommitteeMemberController deployment error:", e);
@@ -308,8 +314,10 @@ public class DeployContract {
         // Step 6: Write [addrress] Into File
         try {
             AuthorityIssuerController authorityIssuerController =
-                f5.get(DEFAULT_DEPLOY_CONTRACTS_TIMEOUT_IN_SECONDS,
-                    TimeUnit.SECONDS);
+                f5.get(
+                    DEFAULT_DEPLOY_CONTRACTS_TIMEOUT_IN_SECONDS,
+                    TimeUnit.SECONDS
+                );
             String authorityIssuerControllerAddress =
                 authorityIssuerController.getContractAddress();
             writeAddressToFile(authorityIssuerControllerAddress, "authorityIssuer.address");
@@ -320,6 +328,30 @@ public class DeployContract {
         return authorityIssuerDataAddress;
     }
 
+    private static String deployEvidenceContracts() {
+        if (web3j == null) {
+            loadConfig();
+        }
+
+        try {
+            Future<EvidenceFactory> f =
+                EvidenceFactory.deploy(
+                    web3j,
+                    credentials,
+                    WeIdConstant.GAS_PRICE,
+                    WeIdConstant.GAS_LIMIT,
+                    WeIdConstant.INILITIAL_VALUE
+                );
+            EvidenceFactory evidenceFactory = f
+                .get(DEFAULT_DEPLOY_CONTRACTS_TIMEOUT_IN_SECONDS, TimeUnit.SECONDS);
+            String evidenceFactoryAddress = evidenceFactory.getContractAddress();
+            writeAddressToFile(evidenceFactoryAddress, "evidenceController.address");
+            return evidenceFactoryAddress;
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            logger.error("EvidenceFactory deploy exception", e);
+        }
+        return StringUtils.EMPTY;
+    }
 
     private static void writeAddressToFile(
         String contractAddress,
@@ -336,14 +368,17 @@ public class DeployContract {
                 logger.error("writeAddressToFile() delete file is fail.");
                 return;
             }
-            ow = new OutputStreamWriter(new FileOutputStream(fileName, true), WeIdConstant.UTF_8);
+            ow = new OutputStreamWriter(
+                new FileOutputStream(fileName, true),
+                StandardCharsets.UTF_8
+            );
             String content = new StringBuffer().append(contractAddress).toString();
             ow.write(content);
             ow.close();
         } catch (IOException e) {
             logger.error("writer file exception", e);
         } finally {
-            if (null != ow) {
+            if (ow != null) {
                 try {
                     ow.close();
                 } catch (IOException e) {

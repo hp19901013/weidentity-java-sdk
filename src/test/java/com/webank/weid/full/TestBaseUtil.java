@@ -1,5 +1,5 @@
 /*
- *       Copyright© (2018) WeBank Co., Ltd.
+ *       Copyright© (2018-2019) WeBank Co., Ltd.
  *
  *       This file is part of weidentity-java-sdk.
  *
@@ -46,10 +46,8 @@ import com.webank.weid.common.PasswordKey;
 import com.webank.weid.constant.JsonSchemaConstant;
 import com.webank.weid.protocol.base.AuthorityIssuer;
 import com.webank.weid.protocol.base.CptBaseInfo;
-import com.webank.weid.protocol.base.Credential;
 import com.webank.weid.protocol.base.WeIdAuthentication;
 import com.webank.weid.protocol.base.WeIdPrivateKey;
-import com.webank.weid.protocol.base.WeIdPublicKey;
 import com.webank.weid.protocol.request.CptMapArgs;
 import com.webank.weid.protocol.request.CptStringArgs;
 import com.webank.weid.protocol.request.CreateCredentialArgs;
@@ -59,7 +57,6 @@ import com.webank.weid.protocol.request.RemoveAuthorityIssuerArgs;
 import com.webank.weid.protocol.request.SetAuthenticationArgs;
 import com.webank.weid.protocol.request.SetPublicKeyArgs;
 import com.webank.weid.protocol.request.SetServiceArgs;
-import com.webank.weid.protocol.request.VerifyCredentialArgs;
 import com.webank.weid.protocol.response.CreateWeIdDataResult;
 
 /**
@@ -73,20 +70,6 @@ public class TestBaseUtil {
      * log4j.
      */
     private static final Logger logger = LoggerFactory.getLogger(TestBaseUtil.class);
-
-    /**
-     * build VerifyCredentialArgs.
-     */
-    public static VerifyCredentialArgs buildVerifyCredentialArgs(
-        Credential credential,
-        String publicKey) {
-
-        VerifyCredentialArgs verifyCredentialArgs = new VerifyCredentialArgs();
-        verifyCredentialArgs.setCredential(credential);
-        verifyCredentialArgs.setWeIdPublicKey(new WeIdPublicKey());
-        verifyCredentialArgs.getWeIdPublicKey().setPublicKey(publicKey);
-        return verifyCredentialArgs;
-    }
 
     /**
      * build CreateCredentialArgs no cptId.
@@ -351,12 +334,12 @@ public class TestBaseUtil {
         try {
 
             URL fileUrl = TestBaseUtil.class.getClassLoader().getResource(fileName);
-            if (null == fileUrl) {
+            if (fileUrl == null) {
                 return null;
             }
 
             String filePath = fileUrl.getFile();
-            if (null == filePath) {
+            if (filePath == null) {
                 return null;
             }
 

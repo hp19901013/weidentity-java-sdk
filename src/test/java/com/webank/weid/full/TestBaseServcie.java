@@ -41,6 +41,7 @@ import com.webank.weid.constant.ErrorCode;
 import com.webank.weid.contract.WeIdContract;
 import com.webank.weid.protocol.base.CptBaseInfo;
 import com.webank.weid.protocol.base.Credential;
+import com.webank.weid.protocol.base.CredentialWrapper;
 import com.webank.weid.protocol.base.WeIdPrivateKey;
 import com.webank.weid.protocol.base.WeIdPublicKey;
 import com.webank.weid.protocol.request.CptMapArgs;
@@ -54,11 +55,11 @@ import com.webank.weid.protocol.response.CreateWeIdDataResult;
 import com.webank.weid.protocol.response.ResponseData;
 import com.webank.weid.util.WeIdUtils;
 
+
 /**
  * testing basic method classes.
- * 
- * @author v_wbgyang
  *
+ * @author v_wbgyang
  */
 public abstract class TestBaseServcie extends BaseTest {
 
@@ -101,16 +102,16 @@ public abstract class TestBaseServcie extends BaseTest {
             }
         }
 
-        if (null == createWeIdResult) {
+        if (createWeIdResult == null) {
             createWeIdResult = this.createWeId();
         }
-        if (null == createWeIdResultWithSetAttr) {
+        if (createWeIdResultWithSetAttr == null) {
             createWeIdResultWithSetAttr = this.createWeIdWithSetAttr();
         }
-        if (null == createWeIdNew) {
+        if (createWeIdNew == null) {
             createWeIdNew = this.createWeId();
         }
-        if (null == createCredentialArgs) {
+        if (createCredentialArgs == null) {
             registerCptArgs = TestBaseUtil.buildCptArgs(createWeIdResultWithSetAttr);
             createCredentialArgs =
                 TestBaseUtil.buildCreateCredentialArgs(createWeIdResultWithSetAttr);
@@ -122,7 +123,7 @@ public abstract class TestBaseServcie extends BaseTest {
     /**
      * according to the analysis of the private key to create WeIdentity DID,and registered as an
      * authority, and its private key is recorded.
-     * 
+     *
      * @param fileName fileName
      */
     private void initIssuer(String fileName) {
@@ -173,13 +174,12 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * verifyCredential.
-     * 
+     *
      * @param credential credential
-     * @return
      */
     protected ResponseData<Boolean> verifyCredential(Credential credential) {
 
-        ResponseData<Boolean> response = credentialService.verifyCredential(credential);
+        ResponseData<Boolean> response = credentialService.verify(credential);
         logger.info("verifyCredentialWithSpecifiedPubKey result:");
         BeanUtil.print(response);
 
@@ -188,13 +188,12 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * createCredential.
-     * 
+     *
      * @param createCredentialArgs createCredentialArgs
-     * @return
      */
-    protected Credential createCredential(CreateCredentialArgs createCredentialArgs) {
+    protected CredentialWrapper createCredential(CreateCredentialArgs createCredentialArgs) {
 
-        ResponseData<Credential> response =
+        ResponseData<CredentialWrapper> response =
             credentialService.createCredential(createCredentialArgs);
         logger.info("createCredential result:");
         BeanUtil.print(response);
@@ -207,10 +206,9 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * cpt register.
-     * 
+     *
      * @param createWeId createWeId
      * @param registerCptArgs registerCptArgs
-     * @return
      */
     protected CptBaseInfo registerCpt(
         CreateWeIdDataResult createWeId,
@@ -228,9 +226,8 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * cpt register.
-     * 
+     *
      * @param createWeId createWeId
-     * @return
      */
     protected CptBaseInfo registerCpt(CreateWeIdDataResult createWeId) {
 
@@ -243,7 +240,7 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * create WeIdentity DID and registerAuthorityIssuer.
-     * 
+     *
      * @return CreateWeIdDataResult
      */
     protected CreateWeIdDataResult registerAuthorityIssuer() {
@@ -291,7 +288,7 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * create WeIdentity DID without set Attribute default.
-     * 
+     *
      * @return CreateWeIdDataResult
      */
     protected CreateWeIdDataResult createWeId() {
@@ -309,14 +306,14 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * setPublicKey default.
-     * 
+     *
      * @param createResult createResult
      * @param publicKey publicKey
      * @param owner owner
      */
     protected void setPublicKey(
-        CreateWeIdDataResult createResult, 
-        String publicKey, 
+        CreateWeIdDataResult createResult,
+        String publicKey,
         String owner) {
 
         // setPublicKey for this WeId
@@ -334,13 +331,13 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * setService default.
-     * 
+     *
      * @param createResult createResult
      * @param serviceType serviceType
      * @param serviceEnpoint serviceEnpoint
      */
     protected void setService(
-        CreateWeIdDataResult createResult, 
+        CreateWeIdDataResult createResult,
         String serviceType,
         String serviceEnpoint) {
 
@@ -359,13 +356,13 @@ public abstract class TestBaseServcie extends BaseTest {
 
     /**
      * setAuthenticate default.
-     * 
+     *
      * @param createResult createResult
      * @param publicKey publicKey
      * @param owner owner
      */
     protected void setAuthentication(
-        CreateWeIdDataResult createResult, 
+        CreateWeIdDataResult createResult,
         String publicKey,
         String owner) {
 
@@ -382,37 +379,37 @@ public abstract class TestBaseServcie extends BaseTest {
         Assert.assertEquals(ErrorCode.SUCCESS.getCode(), responseSetAuth.getErrorCode().intValue());
         Assert.assertEquals(true, responseSetAuth.getResult());
     }
-    
-    protected  MockUp<Future<?>> mockTimeoutFuture() {
+
+    protected MockUp<Future<?>> mockTimeoutFuture() {
         return new MockUp<Future<?>>() {
             @Mock
             public Future<?> get(long timeout, TimeUnit unit)
                 throws TimeoutException {
-                        
+
                 throw new TimeoutException();
             }
         };
     }
- 
-    protected  MockUp<Future<?>> mockInterruptedFuture() {
+
+    protected MockUp<Future<?>> mockInterruptedFuture() {
         return new MockUp<Future<?>>() {
             @Mock
             public Future<?> get(long timeout, TimeUnit unit)
                 throws InterruptedException {
-                
+
                 throw new InterruptedException();
             }
-            
+
             @Mock
             public Future<?> get()
                 throws InterruptedException {
-                
+
                 throw new InterruptedException();
             }
         };
     }
-    
-    protected  MockUp<Future<?>> mockReturnNullFuture() {
+
+    protected MockUp<Future<?>> mockReturnNullFuture() {
         return new MockUp<Future<?>>() {
             @Mock
             public Future<?> get(long timeout, TimeUnit unit) {
@@ -420,7 +417,7 @@ public abstract class TestBaseServcie extends BaseTest {
             }
         };
     }
-    
+
     protected MockUp<WeIdContract> mockSetAttribute(MockUp<Future<?>> mockFuture) {
         return new MockUp<WeIdContract>() {
             @Mock
@@ -433,5 +430,19 @@ public abstract class TestBaseServcie extends BaseTest {
             }
         };
     }
-            
+
+    protected Credential copyCredential(Credential credential) {
+        Credential ct = new Credential();
+        ct.setSignature(credential.getSignature());
+        ct.setContext(credential.getContext());
+        ct.setClaim(credential.getClaim());
+        ct.setIssuranceDate(credential.getIssuranceDate());
+        ct.setCptId(credential.getCptId());
+        ct.setExpirationDate(credential.getExpirationDate());
+        ct.setIssuer(credential.getIssuer());
+        ct.setId(credential.getId());
+        return ct;
+    }
+
+
 }

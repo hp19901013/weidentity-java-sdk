@@ -24,8 +24,7 @@ import lombok.Data;
 import com.webank.weid.protocol.base.WeIdAuthentication;
 
 /**
- * This is a subclass, The Arguments for the SDK API register CPT.
- * The cptJsonSchema is String.
+ * This is a subclass, The Arguments for the SDK API register CPT. The cptJsonSchema is String.
  *
  * @author darwindu
  */

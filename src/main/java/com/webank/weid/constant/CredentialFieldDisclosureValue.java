@@ -1,5 +1,5 @@
 /*
- *       Copyright© (2018-2019) WeBank Co., Ltd.
+ *       Copyright© (2018) WeBank Co., Ltd.
  *
  *       This file is part of weidentity-java-sdk.
  *
@@ -17,42 +17,38 @@
  *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.webank.weid.config;
-
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+package com.webank.weid.constant;
 
 /**
- * contract address config.
- *
- * @author tonychen 2018.9.29
+ * credential field disclosure status.
+ * @author tonychen
  */
-@Component("ContractConfig")
-@Data
-public class ContractConfig {
+public enum CredentialFieldDisclosureValue {
 
     /**
-     * The WeIdentity DID Contract address.
+     * the field is disclosed.
      */
-    @Value("${weId.contractaddress}")
-    private String weIdAddress;
+    DISCLOSED(1),
 
     /**
-     * The CPT Contract address.
+     * the field is not disclosed.
      */
-    @Value("${cpt.contractaddress}")
-    private String cptAddress;
+    NOT_DISCLOSED(0);
 
     /**
-     * The AuthorityIssuerController Contract address.
+     * disclosure status.
      */
-    @Value("${issuer.contractaddress}")
-    private String issuerAddress;
+    private Integer status;
+
+    CredentialFieldDisclosureValue(Integer status) {
+        this.status = status;
+    }
 
     /**
-     * The EvidenceController Contract address.
+     * get field disclosure status.
+     * @return disclosure status of the field.
      */
-    @Value("${evidence.contractaddress}")
-    private String evidenceAddress;
+    public Integer getStatus() {
+        return status;
+    }
 }

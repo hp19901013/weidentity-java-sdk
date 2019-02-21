@@ -20,6 +20,7 @@
 package com.webank.weid.service.impl;
 
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +104,7 @@ public class CptServiceImpl extends BaseService implements CptService {
 
     /**
      * This is used to register a new CPT to the blockchain.
+     *
      * @param args the args
      * @return the response data
      */
@@ -118,7 +120,7 @@ public class CptServiceImpl extends BaseService implements CptService {
             CptMapArgs cptMapArgs = new CptMapArgs();
             cptMapArgs.setWeIdAuthentication(args.getWeIdAuthentication());
             cptMapArgs.setCptJsonSchema(
-                (Map<String, Object>)JsonUtil.jsonStrToObj(
+                (Map<String, Object>) JsonUtil.jsonStrToObj(
                     new HashMap<String, Object>(),
                     args.getCptJsonSchema())
             );
@@ -142,14 +144,14 @@ public class CptServiceImpl extends BaseService implements CptService {
                 logger.error("[registerCpt]input CptMapArgs is null");
                 return new ResponseData<>(null, ErrorCode.ILLEGAL_INPUT);
             }
-            ResponseData<CptBaseInfo> responseData =
+            ErrorCode validateResult =
                 this.validateCptArgs(
                     args.getWeIdAuthentication(),
                     args.getCptJsonSchema()
                 );
 
-            if (responseData.getErrorCode() != ErrorCode.SUCCESS.getCode()) {
-                return responseData;
+            if (validateResult.getCode() != ErrorCode.SUCCESS.getCode()) {
+                return new ResponseData<>(null, validateResult);
             }
 
             TransactionReceipt transactionReceipt = this.getTransactionReceipt(
@@ -170,7 +172,8 @@ public class CptServiceImpl extends BaseService implements CptService {
             return this.getResultByResolveEvent(
                 event.get(0).retCode,
                 event.get(0).cptId,
-                event.get(0).cptVersion);
+                event.get(0).cptVersion
+            );
         } catch (InterruptedException | ExecutionException e) {
             logger.error(
                 "[registerCpt] register cpt failed due to transaction execution error. ",
@@ -215,7 +218,8 @@ public class CptServiceImpl extends BaseService implements CptService {
             Cpt cpt = new Cpt();
             cpt.setCptId(cptId);
             cpt.setCptPublisher(
-                WeIdUtils.convertAddressToWeId(((Address) typeList.get(0)).toString()));
+                WeIdUtils.convertAddressToWeId(((Address) typeList.get(0)).toString())
+            );
 
             long[] longArray = DataTypetUtils.int256DynamicArrayToLongArray(
                 (DynamicArray<Int256>) typeList.get(1)
@@ -234,9 +238,10 @@ public class CptServiceImpl extends BaseService implements CptService {
             }
 
             Map<String, Object> jsonSchemaMap =
-                (Map<String, Object>)JsonUtil.jsonStrToObj(
+                (Map<String, Object>) JsonUtil.jsonStrToObj(
                     new HashMap<String, Object>(),
-                    jsonSchema.toString().trim());
+                    jsonSchema.toString().trim()
+                );
             cpt.setCptJsonSchema(jsonSchemaMap);
 
             int v = DataTypetUtils.uint8ToInt((Uint8) typeList.get(4));
@@ -248,11 +253,11 @@ public class CptServiceImpl extends BaseService implements CptService {
                 new String(
                     SignatureUtils.base64Encode(
                         SignatureUtils.simpleSignatureSerialization(signatureData)),
-                        WeIdConstant.UTF_8);
+                    StandardCharsets.UTF_8
+                );
             cpt.setCptSignature(cptSignature);
 
-            ResponseData<Cpt> responseData = new ResponseData<Cpt>();
-            responseData.setResult(cpt);
+            ResponseData<Cpt> responseData = new ResponseData<Cpt>(cpt, ErrorCode.SUCCESS);
             return responseData;
         } catch (InterruptedException | ExecutionException e) {
             logger.error(
@@ -268,6 +273,7 @@ public class CptServiceImpl extends BaseService implements CptService {
 
     /**
      * This is used to update a CPT data which has been register.
+     *
      * @param args the args
      * @return the response data
      */
@@ -282,7 +288,7 @@ public class CptServiceImpl extends BaseService implements CptService {
             CptMapArgs cptMapArgs = new CptMapArgs();
             cptMapArgs.setWeIdAuthentication(args.getWeIdAuthentication());
             cptMapArgs.setCptJsonSchema(
-                (Map<String, Object>)JsonUtil.jsonStrToObj(
+                (Map<String, Object>) JsonUtil.jsonStrToObj(
                     new HashMap<String, Object>(),
                     args.getCptJsonSchema())
             );
@@ -310,12 +316,14 @@ public class CptServiceImpl extends BaseService implements CptService {
                 logger.error("[updateCpt]input cptId is null");
                 return new ResponseData<>(null, ErrorCode.CPT_ID_NULL);
             }
-            ResponseData<CptBaseInfo> responseData =
+            ErrorCode errorCode =
                 this.validateCptArgs(
                     args.getWeIdAuthentication(),
-                    args.getCptJsonSchema());
-            if (responseData.getErrorCode() != ErrorCode.SUCCESS.getCode()) {
-                return responseData;
+                    args.getCptJsonSchema()
+                );
+
+            if (errorCode.getCode() != ErrorCode.SUCCESS.getCode()) {
+                return new ResponseData<>(null, errorCode);
             }
 
             TransactionReceipt transactionReceipt = this.getTransactionReceipt(
@@ -334,7 +342,8 @@ public class CptServiceImpl extends BaseService implements CptService {
             return this.getResultByResolveEvent(
                 event.get(0).retCode,
                 event.get(0).cptId,
-                event.get(0).cptVersion);
+                event.get(0).cptVersion
+            );
         } catch (InterruptedException | ExecutionException e) {
             logger.error(
                 "[updateCpt2] update cpt failed due to transaction execution error. ",
@@ -442,15 +451,14 @@ public class CptServiceImpl extends BaseService implements CptService {
         result.setCptId(DataTypetUtils.uint256ToInt(cptId));
         result.setCptVersion(DataTypetUtils.int256ToInt(cptVersion));
 
-        ResponseData<CptBaseInfo> responseData = new ResponseData<CptBaseInfo>();
-        responseData.setResult(result);
+        ResponseData<CptBaseInfo> responseData = new ResponseData<>(result, ErrorCode.SUCCESS);
         return responseData;
     }
 
     private RsvSignature sign(
         String cptPublisher,
         String jsonSchema,
-        WeIdPrivateKey cptPublisherPrivateKey) throws Exception {
+        WeIdPrivateKey cptPublisherPrivateKey) {
 
         StringBuilder sb = new StringBuilder();
         sb.append(cptPublisher);
@@ -469,45 +477,45 @@ public class CptServiceImpl extends BaseService implements CptService {
         return rsvSignature;
     }
 
-    private ResponseData<CptBaseInfo> validateCptArgs(
+    private ErrorCode validateCptArgs(
         WeIdAuthentication weIdAuthentication,
         Map<String, Object> cptJsonSchemaMap) throws Exception {
 
         if (weIdAuthentication == null) {
             logger.error("Input cpt weIdAuthentication is invalid.");
-            return new ResponseData<>(null, ErrorCode.WEID_AUTHORITY_INVALID);
+            return ErrorCode.WEID_AUTHORITY_INVALID;
         }
 
         String weId = weIdAuthentication.getWeId();
         if (!WeIdUtils.isWeIdValid(weId)) {
             logger.error("Input cpt publisher : {} is invalid.", weId);
-            return new ResponseData<>(null, ErrorCode.WEID_INVALID);
+            return ErrorCode.WEID_INVALID;
         }
 
         if (cptJsonSchemaMap == null || cptJsonSchemaMap.isEmpty()) {
             logger.error("Input cpt json schema is null.");
-            return new ResponseData<>(null, ErrorCode.CPT_JSON_SCHEMA_NULL);
+            return ErrorCode.CPT_JSON_SCHEMA_NULL;
         }
         String cptJsonSchema = JsonUtil.objToJsonStr(cptJsonSchemaMap);
         if (!JsonSchemaValidatorUtils.isCptJsonSchemaValid(cptJsonSchema)) {
             logger.error("Input cpt json schema : {} is invalid.", cptJsonSchemaMap);
-            return new ResponseData<>(null, ErrorCode.CPT_JSON_SCHEMA_INVALID);
+            return ErrorCode.CPT_JSON_SCHEMA_INVALID;
         }
 
         WeIdPrivateKey weIdPrivateKey = weIdAuthentication.getWeIdPrivateKey();
-        if (null == weIdPrivateKey
+        if (weIdPrivateKey == null
             || StringUtils.isEmpty(weIdPrivateKey.getPrivateKey())) {
             logger.error(
                 "Input cpt publisher private key : {} is in valid.",
                 weIdPrivateKey
             );
-            return new ResponseData<>(null, ErrorCode.WEID_PRIVATEKEY_INVALID);
+            return ErrorCode.WEID_PRIVATEKEY_INVALID;
         }
 
         if (!validatePrivateKeyWeIdMatches(weIdPrivateKey, weId)) {
-            return new ResponseData<>(null, ErrorCode.WEID_PRIVATEKEY_DOES_NOT_MATCH);
+            return ErrorCode.WEID_PRIVATEKEY_DOES_NOT_MATCH;
         }
-        return new ResponseData<>();
+        return ErrorCode.SUCCESS;
     }
 
     private boolean validatePrivateKeyWeIdMatches(WeIdPrivateKey cptPublisherPrivateKey,
@@ -533,6 +541,7 @@ public class CptServiceImpl extends BaseService implements CptService {
 
     /**
      * create new cpt json schema.
+     *
      * @param cptJsonSchema Map
      * @return String
      */

@@ -1,5 +1,5 @@
 /*
- *       Copyright© (2018-2019) WeBank Co., Ltd.
+ *       Copyright© (2018) WeBank Co., Ltd.
  *
  *       This file is part of weidentity-java-sdk.
  *
@@ -17,42 +17,30 @@
  *       along with weidentity-java-sdk.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.webank.weid.config;
+package com.webank.weid.protocol.base;
+
+import java.util.Map;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+import com.webank.weid.protocol.base.Credential;
 
 /**
- * contract address config.
+ * Credential response.
  *
- * @author tonychen 2018.9.29
+ * @author tonychen 2019年1月24日
  */
-@Component("ContractConfig")
 @Data
-public class ContractConfig {
+public class CredentialWrapper {
 
     /**
-     * The WeIdentity DID Contract address.
+     * Required: The Credential.
      */
-    @Value("${weId.contractaddress}")
-    private String weIdAddress;
+    private Credential credential;
 
     /**
-     * The CPT Contract address.
+     * Required: key is the credential field, and value "1" for disclosure to the third party, "0"
+     *      for no disclosure.
      */
-    @Value("${cpt.contractaddress}")
-    private String cptAddress;
-
-    /**
-     * The AuthorityIssuerController Contract address.
-     */
-    @Value("${issuer.contractaddress}")
-    private String issuerAddress;
-
-    /**
-     * The EvidenceController Contract address.
-     */
-    @Value("${evidence.contractaddress}")
-    private String evidenceAddress;
+    private Map<String, Object> disclosure;
 }
